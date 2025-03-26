@@ -6,11 +6,11 @@ import { auth } from "./firebaseConfig.js";
         document.getElementById("register-btn").addEventListener("click", register);
     });
 
-    function login() {
+    function loginUser() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
   
-      signInWithEmailAndPassword(window.auth, email, password)
+      signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log("Logged in:", userCredential.user);
         window.location.href = "/inbox.html"; // Redirect to private page
@@ -21,7 +21,7 @@ import { auth } from "./firebaseConfig.js";
       });
     }
   
-    function register() {
+    function registerUser() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
   
