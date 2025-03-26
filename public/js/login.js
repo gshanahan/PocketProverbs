@@ -41,6 +41,20 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "http
         alert(error.message);
       });
     }
+
+    async function saveUserData(userId, email) {
+        try {
+            const userRef = doc(db, "users", userId); // Creates /users/{userId}
+            await setDoc(userRef, {
+                email: email,
+                createdAt: new Date(),
+                savedStudies: [] // Empty array for studies (optional)
+            });
+            console.log("User data saved in Firestore.");
+        } catch (error) {
+            console.error("Error saving user data:", error);
+        }
+    }
   
     window.loginUser = loginUser;
     window.registerUser = registerUser;
