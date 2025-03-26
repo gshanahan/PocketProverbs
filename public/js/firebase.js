@@ -1,4 +1,4 @@
-import { auth } from "../config/firebaseConfig.js";
+import { auth } from "./config/firebaseConfig.js";
 
 // Check authentication on page load
 auth.onAuthStateChanged(user => {
