@@ -27,7 +27,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "http
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
   
-      createUserWithEmailAndPassword(window.auth, email, password)
+      createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
           // Save user to Firestore
