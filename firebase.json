@@ -5,9 +5,9 @@
       "firebase.json", "**/.*", "**/node_modules/**"
     ],
     "rewrites": [
-      { "source": "/index.html", "destination": "/index.html" },
-      { "source": "/profile", "destination": "/profile.html" },
-      { "source": "/login", "destination": "/login.html" }
+      { "source": "/profile.html", "destination": "/profile.html" },
+      { "source": "/login.html", "destination": "/login.html" },
+      { "source": "**", "destination": "/index.html" }
     ]
   }
 }
