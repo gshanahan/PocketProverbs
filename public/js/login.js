@@ -2,8 +2,8 @@ import { auth } from "./firebaseConfig.js";
   
     document.addEventListener("DOMContentLoaded", () => {
         // Attach event listeners to buttons
-        document.getElementById("login-btn").addEventListener("click", login);
-        document.getElementById("register-btn").addEventListener("click", register);
+        document.getElementById("loginButton").addEventListener("click", loginUser);
+        document.getElementById("registerButton").addEventListener("click", registerUser);
     });
 
     function loginUser() {
@@ -39,5 +39,5 @@ import { auth } from "./firebaseConfig.js";
       });
     }
   
-    window.login = login;
-    window.register = register;
+    window.loginUser = loginUser;
+    window.registerUser = registerUser;
