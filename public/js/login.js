@@ -1,4 +1,4 @@
-import { auth } from "../config/firebaseConfig";
+import { auth } from "./firebaseConfig";
   
     document.addEventListener("DOMContentLoaded", () => {
         // Attach event listeners to buttons
