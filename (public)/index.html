@@ -1,11 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PocketProverbs</title>
+  <title>PocketProverbs - Dashboard</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to custom styles (if any) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <!-- You can add any external CSS libraries here, like Bootstrap if you need -->
 </head>
+
 <body>
-  <div id="root"></div>
+  <!-- App container -->
+  <div id="app">
+    <header>
+      <div class="header-content">
+        <div class="logo">
+          <h1>PocketProverbs</h1>
+        </div>
+        <!-- User profile and sign-out -->
+        <div class="user-actions">
+          <div class="profile-pic">
+            <img src="path_to_profile_picture.jpg" alt="User Profile" onclick="window.location.href='/profile'">
+          </div>
+          <button class="sign-out" onclick="signOut()">Sign Out</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main dashboard content -->
+    <main class="dashboard">
+      <div class="dashboard-sidebar">
+        <ul>
+          <li><a href="#interact">Interact with ChatGPT</a></li>
+          <li><a href="#savedStudies">Saved Bible Studies</a></li>
+          <li><a href="#userNotes">Your Notes</a></li>
+        </ul>
+      </div>
+
+      <div class="dashboard-content">
+        <section id="interact">
+          <h2>Interact with ChatGPT</h2>
+          <div class="chat-container">
+            <div class="chat-history">
+              <!-- ChatGPT conversation will be displayed here -->
+            </div>
+            <textarea id="user-input" placeholder="Ask a question or request a Bible study..." rows="4"></textarea>
+            <button id="submit-btn" onclick="handleUserMessage()">Send</button>
+          </div>
+        </section>
+
+        <section id="savedStudies">
+          <h2>Your Saved Bible Studies</h2>
+          <div class="study-list">
+            <!-- Display list of saved Bible studies -->
+          </div>
+        </section>
+
+        <section id="userNotes">
+          <h2>Your Notes</h2>
+          <div class="notes-list">
+            <!-- Display list of user's notes -->
+          </div>
+        </section>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Optional: External JS libraries or Firebase config -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <script src="firebase.js"></script>
+
+  <!-- Custom JS for handling chat input and Firebase authentication -->
+  <script src="dashboard.js"></script>
+
+  <script>
+    // Example sign-out function (replace with Firebase auth method)
+    function signOut() {
+      // Firebase auth sign-out logic
+      firebase.auth().signOut().then(function() {
+        // Redirect to the login page or sign-in page
+        window.location.href = '/login';
+      }).catch(function(error) {
+        console.error("Error signing out: ", error);
+      });
+    }
+
+    // Example function for handling user messages to ChatGPT
+    function handleUserMessage() {
+      const userInput = document.getElementById('user-input').value;
+      if (userInput.trim()) {
+        // Send message to the backend (API call) for ChatGPT response
+        console.log("User message:", userInput);
+        // Example: add the user message to chat history
+        const chatHistory = document.querySelector('.chat-history');
+        chatHistory.innerHTML += `<div class="user-message">${userInput}</div>`;
+        document.getElementById('user-input').value = '';  // Clear input field
+        // Simulate GPT response (replace with actual GPT API integration)
+        setTimeout(() => {
+          chatHistory.innerHTML += `<div class="gpt-message">This is GPT's response to: ${userInput}</div>`;
+        }, 1000);
+      }
+    }
+  </script>
 </body>
+
 </html>
