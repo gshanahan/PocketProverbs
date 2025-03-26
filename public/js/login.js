@@ -11,8 +11,14 @@ import { auth } from "./firebaseConfig.js";
       const password = document.getElementById("password").value;
   
       auth.signInWithEmailAndPassword(email, password)
-        .then(() => window.location.href = "/index.html")
-        .catch(error => document.getElementById("error-message").innerText = error.message);
+      .then((userCredential) => {
+        console.log("Logged in:", userCredential.user);
+        window.location.href = "/inbox.html"; // Redirect to private page
+      })
+      .catch((error) => {
+        console.error("Error:", error.message);
+        alert(error.message);
+      });
     }
   
     function register() {
@@ -20,8 +26,17 @@ import { auth } from "./firebaseConfig.js";
       const password = document.getElementById("password").value;
   
       auth.createUserWithEmailAndPassword(email, password)
-        .then(() => window.location.href = "/index.html")
-        .catch(error => document.getElementById("error-message").innerText = error.message);
+      .then((userCredential) => {
+        const user = userCredential.user;
+          // Save user to Firestore
+        saveUserData(user.uid, email);
+        console.log("Account created:", userCredential.user);
+        alert("Account created successfully!");
+      })
+      .catch((error) => {
+        console.error("Error:", error.message);
+        alert(error.message);
+      });
     }
   
     window.login = login;
