@@ -10,7 +10,7 @@ import { auth } from "./firebaseConfig.js";
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
   
-      auth.signInWithEmailAndPassword(email, password)
+      signInWithEmailAndPassword(window.auth, email, password)
       .then((userCredential) => {
         console.log("Logged in:", userCredential.user);
         window.location.href = "/inbox.html"; // Redirect to private page
@@ -25,7 +25,7 @@ import { auth } from "./firebaseConfig.js";
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
   
-      auth.createUserWithEmailAndPassword(email, password)
+      createUserWithEmailAndPassword(window.auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
           // Save user to Firestore
