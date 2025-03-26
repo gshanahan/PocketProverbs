@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .dashboard {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  button {
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: #3f51b5;
+    color: white;
+  }
+  
+  button:hover {
+    background-color: #303f9f;
+  }
+  
