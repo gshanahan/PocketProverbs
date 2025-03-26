@@ -7,11 +7,12 @@
     "rewrites": [
       { "source": "/profile.html", "destination": "/profile.html" },
       { "source": "/login.html", "destination": "/login.html" },
-      { "source": "/index.html", "destination": "/index.html" }
+      { "source": "/index.html", "destination": "/index.html" },
+      { "source": "**/*.js", "destination": "/config/firebaseConfig.js"}
     ],
     "headers": [
       {
-        "source": "**/*.js",
+        "source": "**/*.js", 
         "headers": [{ "key": "Content-Type", "value": "application/javascript" }]
       }
     ]
