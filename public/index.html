@@ -14,18 +14,46 @@
   <!-- App container -->
   <div id="app">
     <header>
+      <!--
       <div class="header-content">
         <div class="logo">
           <h1>PocketProverbs</h1>
-        </div>
-        <!-- User profile and sign-out -->
+        </div> 
         <div class="user-actions">
           <div class="profile-pic">
-            <!-- <img src="path_to_profile_picture.jpg" alt="User Profile" onclick="window.location.href='/profile'"> -->
           </div>
           <button class="sign-out" onclick="logoutUser()">Sign Out</button>
         </div>
-      </div>
+      </div> -->
+      <nav class="header-content px-6 py-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Left: Logo -->
+            <a href="/" class="text-xl font-semibold tracking-wide text-white">PocketProverbs</a>
+
+            <!-- Right: Nav Links (Hidden on Mobile) -->
+            <div class="hidden md:flex space-x-6">
+                <a href="/focused-view" class="hover:text-gray-400">Focused View</a>
+                <a href="/account" class="hover:text-gray-400">Account</a>
+                <button id="signOut" class="sign-out hover:text-red-400" onclick="logoutUser()">Sign Out</button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="md:hidden text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" 
+                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" 
+                          d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2 px-6 py-4 bg-gray-800">
+            <a href="/focused-view" class="block hover:text-gray-400">Focused View</a>
+            <a href="/account" class="block hover:text-gray-400">Account</a>
+            <button id="mobile-signOut" class="block hover:text-red-400">Sign Out</button>
+        </div>
+    </nav>
     </header>
 
     <!-- Main dashboard content -->
