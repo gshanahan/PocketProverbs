@@ -1,5 +1,11 @@
 import { auth } from "../config/firebaseConfig.js";
   
+    document.addEventListener("DOMContentLoaded", () => {
+        // Attach event listeners to buttons
+        document.getElementById("login-btn").addEventListener("click", login);
+        document.getElementById("register-btn").addEventListener("click", register);
+    });
+
     function login() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
