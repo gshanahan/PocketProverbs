@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PocketProverbs - Dashboard</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Link to custom styles (if any) -->
+  <link rel="stylesheet" href="css/global.css"> <!-- Link to custom styles (if any) -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <!-- You can add any external CSS libraries here, like Bootstrap if you need -->
 </head>
@@ -21,7 +21,7 @@
         <!-- User profile and sign-out -->
         <div class="user-actions">
           <div class="profile-pic">
-            <img src="path_to_profile_picture.jpg" alt="User Profile" onclick="window.location.href='/profile'">
+            <!-- <img src="path_to_profile_picture.jpg" alt="User Profile" onclick="window.location.href='/profile'"> -->
           </div>
           <button class="sign-out" onclick="signOut()">Sign Out</button>
         </div>
@@ -69,10 +69,7 @@
   </div>
 
   <!-- Optional: External JS libraries or Firebase config -->
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-  <script src="firebase.js"></script>
+  <script type="module" src="firebaseConfig.js"></script>
 
   <!-- Custom JS for handling chat input and Firebase authentication -->
   <script type="module" src="js/dashboard.js"></script>
