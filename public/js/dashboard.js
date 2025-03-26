@@ -1,3 +1,5 @@
+  import { firebaseConfig } from "../config/firebaseConfig.js";
+
   // Example sign-out function (replace with Firebase auth method)
   function signOut() {
     // Firebase auth sign-out logic
