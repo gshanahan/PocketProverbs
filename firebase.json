@@ -7,7 +7,7 @@
     "rewrites": [
       { "source": "/profile.html", "destination": "/profile.html" },
       { "source": "/login.html", "destination": "/login.html" },
-      { "source": "**", "destination": "/index.html" }
+      { "source": "/index.html", "destination": "/index.html" }
     ],
     "headers": [
       {
