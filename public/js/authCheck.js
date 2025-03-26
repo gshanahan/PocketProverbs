@@ -1,6 +1,6 @@
 import { auth } from "./firebaseConfig.js";
 
-auth.onAuthStateChanged(user => {
+onAuthStateChanged(auth, (user) => {
     if (!user) {
         window.location.href = "/login.html"; // Redirect to login if not authenticated
     }

@@ -1,11 +1,12 @@
   import { firebaseConfig } from "./firebaseConfig.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
   // Example sign-out function (replace with Firebase auth method)
   function signOut() {
     // Firebase auth sign-out logic
-    firebase.auth().signOut().then(function() {
+    signOut(auth).then(() => {
       // Redirect to the login page or sign-in page
-      window.location.href = '/login';
+      window.location.href = '/login.html';
     }).catch(function(error) {
       console.error("Error signing out: ", error);
     });
