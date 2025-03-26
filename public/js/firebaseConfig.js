@@ -1,8 +1,7 @@
-// Import Firebase modules
-import firebase from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
-import "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+// Import necessary Firebase modules (DO NOT use 'default')
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
 
 // Your Firebase configuration from the Firebase Console
 const firebaseConfig = {
@@ -15,11 +14,10 @@ const firebaseConfig = {
     measurementId: "G-Y9C73KBP77"
   };
 
-// Initialize Firebase only once
-const app = firebase.initializeApp(firebaseConfig);
+// Initialize Firebase App
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-// Initialize Firebase services
-const auth = app.auth();
-const db = app.firestore();
-
-export { auth, db };
+// Export Firebase instances (named exports)
+export { app, auth, db };
