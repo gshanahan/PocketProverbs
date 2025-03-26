@@ -15,7 +15,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "http
       signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log("Logged in:", userCredential.user);
-        window.location.href = "/inbox.html"; // Redirect to private page
+        window.location.href = "/index.html"; // Redirect to private page
       })
       .catch((error) => {
         console.error("Error:", error.message);
@@ -34,6 +34,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "http
         saveUserData(user.uid, email);
         console.log("Account created:", userCredential.user);
         alert("Account created successfully!");
+        window.location.href = "/index.html"; // Redirect to private page
       })
       .catch((error) => {
         console.error("Error:", error.message);
