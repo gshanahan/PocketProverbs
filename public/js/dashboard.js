@@ -2,7 +2,7 @@
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
   // Example sign-out function (replace with Firebase auth method)
-  function signOut() {
+  function logoutUser() {
     // Firebase auth sign-out logic
     signOut(auth).then(() => {
       // Redirect to the login page or sign-in page
@@ -28,3 +28,5 @@
       }, 1000);
     }
   }
+
+  window.logoutUser = logoutUser;
