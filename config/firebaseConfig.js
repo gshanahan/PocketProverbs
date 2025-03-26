@@ -1,7 +1,6 @@
-// Import the necessary Firebase services
-import firebase from 'firebase/app';
-import 'firebase/auth';  // For authentication
-import 'firebase/firestore';  // For Firestore
+// Import Firebase modules
+import firebase from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+import "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
 // Your Firebase configuration from the Firebase Console
 const firebaseConfig = {
