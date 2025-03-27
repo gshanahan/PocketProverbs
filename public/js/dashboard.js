@@ -37,4 +37,19 @@
       mobileMenu.classList.toggle("hidden");
   });
 
+  // Verse generation
+  const verses = [
+    { text: '"Trust in the LORD with all your heart and lean not on your own understanding." - Proverbs 3:5' },
+    { text: '"I can do all things through Christ who strengthens me." - Philippians 4:13' },
+    { text: '"Be still, and know that I am God." - Psalm 46:10' }
+  ];
+
+  // Load a random verse
+  document.getElementById("dailyVerse").innerText = verses[Math.floor(Math.random() * verses.length)].text;
+
+  // Placeholder for analysis (Replace this with AI integration if needed)
+  document.getElementById("generateAnalysis").addEventListener("click", function () {
+      document.getElementById("verseAnalysis").value = "This verse emphasizes faith and reliance on God.";
+  });
+
   window.logoutUser = logoutUser;
