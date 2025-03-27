@@ -53,6 +53,7 @@ async function fetchVerseAnalysis(verse) {
         });
 
         const data = await response.json();
+        console.log("AI Response:", data); //debug code
         return data.choices[0].text.trim();
     } catch (error) {
         console.error("Error fetching AI analysis:", error);
