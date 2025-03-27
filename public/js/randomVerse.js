@@ -39,27 +39,38 @@ async function fetchDailyVerse() {
 
 async function fetchVerseAnalysis(verse) {
     try {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-            method: 'POST',
+        console.log("Fetching AI analysis for:", verse);
+        
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {  
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 'Authorization': `Bearer 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` // Replace with your API key
             },
             body: JSON.stringify({
-                model: "gpt-4",
-                prompt: `Provide a short biblical analysis for this verse:\n\n${verse}`,
+                model: "gpt-3.5-turbo",  // Use "gpt-4" if you have access
+                messages: [
+                    { role: "system", content: "You are a Bible scholar providing theological insights." },
+                    { role: "user", content: `Analyze this Bible verse: ${verse}` }
+                ],
                 max_tokens: 100
             })
         });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
-        console.log("AI Response:", data); //debug code
-        return data.choices[0].text.trim();
+        console.log("AI Response:", data);
+
+        return data.choices?.[0]?.message?.content?.trim() || "Analysis not available.";
     } catch (error) {
         console.error("Error fetching AI analysis:", error);
         return "Analysis not available.";
     }
 }
+
 
 // Fetch the daily verse when the page loads
 fetchDailyVerse();
