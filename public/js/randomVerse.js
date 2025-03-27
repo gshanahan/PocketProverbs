@@ -1,11 +1,13 @@
 async function fetchDailyVerse() {
     const storedVerse = localStorage.getItem("dailyVerse");
+    const storedAnalysis = localStorage.getItem("verseAnalysis");
     const storedDate = localStorage.getItem("verseDate");
-    const today = new Date().toISOString().split("T")[0]; // Get current date as YYYY-MM-DD
+    const today = new Date().toISOString().split("T")[0]; // Get YYYY-MM-DD
 
-    if (storedVerse && storedDate === today) {
-        // Use stored verse if it was fetched today
+    if (storedVerse && storedAnalysis && storedDate === today) {
+        // Use stored verse and analysis if available
         document.getElementById("dailyVerse").innerText = storedVerse;
+        document.getElementById("verseAnalysis").value = storedAnalysis;
     } else {
         try {
             const response = await fetch('https://bible-api.com/?random=1'); // Fetch a random verse
@@ -15,9 +17,16 @@ async function fetchDailyVerse() {
                 const verseText = `"${data.text}" - ${data.reference}`;
                 document.getElementById("dailyVerse").innerText = verseText;
 
-                // Store verse and date in localStorage
+                // Generate AI-based analysis
+                const analysis = await fetchVerseAnalysis(verseText);
+
+                // Store in localStorage
                 localStorage.setItem("dailyVerse", verseText);
+                localStorage.setItem("verseAnalysis", analysis);
                 localStorage.setItem("verseDate", today);
+
+                // Display analysis
+                document.getElementById("verseAnalysis").value = analysis;
             } else {
                 document.getElementById("dailyVerse").innerText = "Could not fetch verse.";
             }
@@ -28,10 +37,28 @@ async function fetchDailyVerse() {
     }
 }
 
-// Fetch verse only if needed
-fetchDailyVerse();
+async function fetchVerseAnalysis(verse) {
+    try {
+        const response = await fetch('https://api.openai.com/v1/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer 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` // Replace with your API key
+            },
+            body: JSON.stringify({
+                model: "gpt-4",
+                prompt: `Provide a short biblical analysis for this verse:\n\n${verse}`,
+                max_tokens: 100
+            })
+        });
 
-// Placeholder for analysis (Replace with AI if needed)
-document.getElementById("generateAnalysis").addEventListener("click", function () {
-    document.getElementById("verseAnalysis").value = "This verse emphasizes faith and reliance on God.";
-});
+        const data = await response.json();
+        return data.choices[0].text.trim();
+    } catch (error) {
+        console.error("Error fetching AI analysis:", error);
+        return "Analysis not available.";
+    }
+}
+
+// Fetch the daily verse when the page loads
+fetchDailyVerse();
