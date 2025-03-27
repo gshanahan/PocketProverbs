@@ -41,20 +41,26 @@ async function fetchVerseAnalysis(verse) {
     try {
         console.log("Fetching AI analysis for:", verse);
         
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {  
+//        const response = await fetch("https://api.openai.com/v1/chat/completions", {  
+//            method: "POST",
+//            headers: {
+//                "Content-Type": "application/json",
+//                'Authorization': `Bearer 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` // Replace with your API key
+//            },
+//            body: JSON.stringify({
+//                model: "gpt-3.5-turbo",  // Use "gpt-4" if you have access
+//                messages: [
+//                    { role: "system", content: "You are a Bible scholar providing theological insights." },
+//                    { role: "user", content: `Analyze this Bible verse in a few short sentences: ${verse}` }
+//                ],
+//                max_tokens: 100
+//            })
+//        });
+
+        const response = await fetch("https://api-inference.huggingface.co/models/facebook/bart-large-cnn", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer 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` // Replace with your API key
-            },
-            body: JSON.stringify({
-                model: "gpt-3.5-turbo",  // Use "gpt-4" if you have access
-                messages: [
-                    { role: "system", content: "You are a Bible scholar providing theological insights." },
-                    { role: "user", content: `Analyze this Bible verse: ${verse}` }
-                ],
-                max_tokens: 100
-            })
+            headers: { "Authorization": "Bearer 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" },
+            body: JSON.stringify({ inputs: `Analyze this Bible verse in 100 words or less: ${verse}` })
         });
 
         if (!response.ok) {
