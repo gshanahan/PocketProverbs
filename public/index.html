@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <!-- You can add any external CSS libraries here, like Bootstrap if you need -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="http://cdn.scripture.api.bible/fums/fumsv2.min.js"></script>
 </head>
 
 <body>
@@ -58,7 +59,7 @@
         <!-- Middle: Daily Verse -->
         <div class="w-2/4 flex flex-col items-center justify-center px-4 text-center">
             <h2 class="text-lg font-semibold mb-2">Daily Bible Verse</h2>
-            <p id="dailyVerse" class="text-xl italic">"Loading..."</p>
+            <p id="dailyVerse" class="text-xl italic"><span id="verse"></span></p>
         </div>
     
         <!-- Right: Verse Analysis -->
@@ -115,6 +116,7 @@
   <!-- Custom JS for handling chat input and Firebase authentication -->
   <script type="module" src="js/dashboard.js"></script>
   <script type="module" src="js/authCheck.js"></script>
+  <script type="module" src="js/randomVerse.js"></script>
 
 </body>
 
