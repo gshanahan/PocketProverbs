@@ -17,10 +17,11 @@ async function fetchDailyVerse() {
                 const verseText = `"${data.text}" - ${data.reference}`;
                 document.getElementById("dailyVerse").innerText = verseText;
 
+                let analysis = "";
                 // Generate AI-based analysis
                 try {
                     console.log("Calling fetchVerseAnalysis");
-                    const analysis = await fetchVerseAnalysis(verseText);
+                    analysis = await fetchVerseAnalysis(verseText);
                     console.log("Fetch complete");
                 } catch (error) {
                     console.error("Error calling fetchVerseAnalysis:", error);
