@@ -19,6 +19,7 @@ async function fetchDailyVerse() {
 
                 // Generate AI-based analysis
                 const analysis = await fetchVerseAnalysis(verseText);
+                console.log(verseText);
 
                 // Store in localStorage
                 localStorage.setItem("dailyVerse", verseText);
