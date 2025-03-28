@@ -18,8 +18,13 @@ async function fetchDailyVerse() {
                 document.getElementById("dailyVerse").innerText = verseText;
 
                 // Generate AI-based analysis
-                const analysis = await fetchVerseAnalysis(verseText);
-                console.log(verseText);
+                try {
+                    console.log("Calling fetchVerseAnalysis");
+                    const analysis = await fetchVerseAnalysis(verseText);
+                    console.log("Fetch complete");
+                } catch (error) {
+                    console.error("Error calling fetchVerseAnalysis:", error);
+                }
 
                 // Store in localStorage
                 localStorage.setItem("dailyVerse", verseText);
