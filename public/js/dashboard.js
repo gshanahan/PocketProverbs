@@ -1,4 +1,4 @@
-  import { auth } from "./firebaseConfig.js";
+  import { auth, db, onAuthStateChanged, doc, setDoc} from "./firebaseConfig.js";
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
   // Example sign-out function (replace with Firebase auth method)
