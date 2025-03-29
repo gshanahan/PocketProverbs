@@ -11,15 +11,19 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "http
     function loginUser() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
+
+      showLoading();
   
       signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log("Logged in:", userCredential.user);
         window.location.href = "/index.html"; // Redirect to private page
+        hideLoading();
       })
       .catch((error) => {
         console.error("Error:", error.message);
         alert(error.message);
+        hideLoading();
       });
     }
   
@@ -64,23 +68,6 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "http
       function hideLoading() {
         const overlay = document.getElementById("loadingOverlay");
         overlay.classList.add("hidden");
-      }
-      
-      // Example login function
-      async function login() {
-        showLoading();
-        try {
-          // Simulating login delay
-          await new Promise((resolve) => setTimeout(resolve, 2000)); 
-      
-          // Your login logic here
-          console.log("Login successful!");
-          hideLoading();
-          // Redirect to dashboard or load dashboard data
-        } catch (error) {
-          console.error("Login failed", error);
-          hideLoading();
-        }
       }
       
       // Trigger login with button click
