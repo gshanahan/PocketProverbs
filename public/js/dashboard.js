@@ -2,15 +2,22 @@
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
   // Example sign-out function (replace with Firebase auth method)
-  function logoutUser() {
-    // Firebase auth sign-out logic
-    signOut(auth).then(() => {
-      // Redirect to the login page or sign-in page
-      window.location.href = '/login.html';
-    }).catch(function(error) {
-      console.error("Error signing out: ", error);
+    document.addEventListener('DOMContentLoaded', () => {
+        const signOutBtn = document.getElementById('signOut');
+        if (signOutBtn) {
+            signOutBtn.addEventListener('click', logoutUser);
+        }
     });
-  }
+
+    function logoutUser() {
+        // Firebase auth sign-out logic
+        signOut(auth).then(() => {
+            // Redirect to the login page or sign-in page
+            window.location.href = '/login.html';
+        }).catch(function(error) {
+            console.error("Error signing out: ", error);
+        });
+    }
 
   // Example function for handling user messages to ChatGPT
   function handleUserMessage() {
@@ -193,7 +200,4 @@ document.getElementById('save-btn').addEventListener('click', async function() {
   }
 });
 
-
-
-
-  window.logoutUser = logoutUser;
+window.logoutUser = logoutUser;
