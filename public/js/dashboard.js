@@ -194,6 +194,7 @@ document.getElementById('save-btn').addEventListener('click', async function() {
   const user = auth.currentUser;
   const userId = user.uid;
   console.log(userId);
+  alert("This is your userId:", userId);
   try {
       await saveDocument(userId, title, category, content);
       alert('Document saved successfully!');
