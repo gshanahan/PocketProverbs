@@ -50,13 +50,13 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
     }
     
     // Function to Save User Data in Firestore
-    async function saveUserData(userId, email, profilePictureUrl = null) {
+    async function saveUserData(userId, email) {
         try {
             const userRef = doc(db, "users", userId);
             await setDoc(userRef, {
                 email: email,
                 createdAt: serverTimestamp(), // Firestore timestamp instead of new Date()
-                profilePicture: profilePictureUrl || null // Ensuring null if no profile picture
+                profilePicture: "" // Ensuring null if no profile picture
             });
     
             console.log("User data saved in Firestore.");
