@@ -39,7 +39,7 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
             saveUserData(userCredential.user, email);
     
             // Redirect after Firestore data is saved
-            window.location.href = "/index.html"; 
+            //window.location.href = "/index.html";         /////ADD THIS BACK AFTER TESTING
             hideLoading();
         })
         .catch((error) => {
@@ -92,4 +92,4 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
       
   
     window.loginUser = loginUser;
-    //window.registerUser = registerUser;
+    //window.registerUser = registerUser;          ///////////////////////////////////////////
