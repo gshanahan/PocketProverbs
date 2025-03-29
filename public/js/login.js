@@ -1,4 +1,4 @@
-import { auth, db, doc, setDoc, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged} from "./firebaseConfig.js";
+import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged} from "./firebaseConfig.js";
   
     document.addEventListener("DOMContentLoaded", () => {
         // Attach event listeners to buttons
@@ -25,33 +25,38 @@ import { auth, db, doc, setDoc, createUserWithEmailAndPassword, signInWithEmailA
       });
     }
   
-    function registerUser() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-  
-      createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-          // Save user to Firestore
-        saveUserData(user.uid, email);
-        console.log("Account created:", userCredential.user);
-        //alert("Account created successfully!");
-        window.location.href = "/index.html"; // Redirect to private page
-      })
-      .catch((error) => {
-        console.error("Error:", error.message);
-        alert(error.message);
-      });
+    async function registerUser() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+    
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+    
+            console.log("Account created:", user.uid);
+    
+            // Save user data to Firestore
+            await saveUserData(user.uid, email);
+    
+            // Redirect after Firestore data is saved
+            window.location.href = "/index.html";
+    
+        } catch (error) {
+            console.error("Error:", error.message);
+            alert(error.message);
+        }
     }
-
+    
+    // Function to Save User Data in Firestore
     async function saveUserData(userId, email, profilePictureUrl = null) {
         try {
-            const userRef = doc(db, "users", userId); // Creates /users/{userId}
+            const userRef = doc(db, "users", userId);
             await setDoc(userRef, {
                 email: email,
-                createdAt: new Date(),
-                profilePicture: profilePictureUrl, // Optional profile picture
+                createdAt: serverTimestamp(), // Firestore timestamp instead of new Date()
+                profilePicture: profilePictureUrl || null // Ensuring null if no profile picture
             });
+    
             console.log("User data saved in Firestore.");
         } catch (error) {
             console.error("Error saving user data:", error);
