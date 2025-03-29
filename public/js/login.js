@@ -1,7 +1,4 @@
 import { auth } from "./firebaseConfig.js";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
-
   
     document.addEventListener("DOMContentLoaded", () => {
         // Attach event listeners to buttons

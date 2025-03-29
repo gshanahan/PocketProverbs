@@ -20,4 +20,4 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // Export Firebase instances (named exports)
-export { app, auth, db, onAuthStateChanged };
+export { app, auth, db, onAuthStateChanged, doc, setDoc, createUserWithEmailAndPassword, signInWithEmailAndPassword};
