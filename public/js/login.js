@@ -15,7 +15,7 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
       signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log("Logged in:", userCredential.user);
-        window.location.href = "/index.html"; // Redirect to private page
+        //window.location.href = "/index.html"; // Redirect to private page
         hideLoading();
       })
       .catch((error) => {
@@ -25,9 +25,11 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
       });
     }
   
-    async function registerUser() {
+    async function registerUser(event) {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
+
+        event.preventDefault(); 
 
         showLoading();
 
@@ -39,7 +41,6 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
             saveUserData(userCredential.user, email);
     
             // Redirect after Firestore data is saved
-            alert("PAUSE");
             window.location.href = "/index.html"; 
             hideLoading();
         })
