@@ -71,21 +71,6 @@
 
   <!-- Quill.js -->
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-  <script>
-    // Initialize Quill editor
-    var quill = new Quill('#editor-container', {
-      theme: 'snow',  // Snow theme provides a clean UI
-      modules: { toolbar: '#toolbar' }
-    });
-
-    // Save Button Functionality
-    document.getElementById("save-btn").addEventListener("click", function() {
-      const content = quill.root.innerHTML;
-      console.log("Saved Content:", content);
-      alert("Your notes have been saved (console log for now).");
-      // Future: Send content to backend for user accounts
-    });
-  </script>
   <script type="module" src="js/dashboard.js"></script>
   <script type="module" src="js/authCheck.js"></script>
 
