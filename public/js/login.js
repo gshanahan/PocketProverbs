@@ -36,7 +36,7 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
             console.log("Account created:", userCredential.user);
 
             // Save user data to Firestore
-            saveUserData(userCredential.user.uid, email);
+            saveUserData(userCredential.user, email);
     
             // Redirect after Firestore data is saved
             window.location.href = "/index.html";
