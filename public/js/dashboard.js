@@ -179,6 +179,7 @@ async function viewDocument(docId, userId) {
 //});
 
 document.getElementById('save-btn').addEventListener('click', async function() {
+  alert("Save button pressed");
   const title = document.getElementById('title-input').value;
   const category = document.getElementById('category-select').value;
   const content = quill.root.innerHTML; // Get the content from Quill editor
