@@ -35,7 +35,7 @@ import { auth, db, doc, setDoc, createUserWithEmailAndPassword, signInWithEmailA
           // Save user to Firestore
         saveUserData(user.uid, email);
         console.log("Account created:", userCredential.user);
-        alert("Account created successfully!");
+        //alert("Account created successfully!");
         window.location.href = "/index.html"; // Redirect to private page
       })
       .catch((error) => {
