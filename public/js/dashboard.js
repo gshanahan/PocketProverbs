@@ -56,10 +56,10 @@
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': `Bearer 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` // Replace with your API key
+          'Authorization': `Bearer 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` // Replace with your API key
 },
         body: JSON.stringify({
-          model: "gpt-3.5-turbo",
+          model: "gpt-40-mini",
           messages: [{ role: "user", content: userMessage }]
         })
       });
