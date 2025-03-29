@@ -48,8 +48,7 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
     
     // Function to Save User Data in Firestore
     async function saveUserData(userId, email) {
-        try {
-            const userRef = doc(db, "users", userId);
+        const userRef = doc(db, "users", userId);
             await setDoc(userRef, {
                 email: email,
                 createdAt: serverTimestamp(), // Firestore timestamp instead of new Date()
@@ -57,9 +56,6 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
             });
     
             console.log("User data saved in Firestore.");
-        } catch (error) {
-            console.error("Error saving user data:", error);
-        }
     }
 
     // Listen for authentication state changes
