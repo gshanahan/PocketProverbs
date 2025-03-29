@@ -37,4 +37,56 @@
       mobileMenu.classList.toggle("hidden");
   });
 
+  //Chat window logic
+  async function sendMessage() {
+    const chatWindow = document.getElementById("chatWindow");
+    const chatInput = document.getElementById("chatInput");
+    const userMessage = chatInput.value;
+    if (!userMessage.trim()) return;
+  
+    // Display user message
+    const userDiv = document.createElement("div");
+    userDiv.textContent = "You: " + userMessage;
+    userDiv.classList.add("text-sm", "mb-2", "text-blue-600");
+    chatWindow.appendChild(userDiv);
+    chatInput.value = "";
+  
+    try {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer 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` // Replace with your API key
+},
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: userMessage }]
+        })
+      });
+  
+      const data = await response.json();
+      const botMessage = data.choices[0].message.content;
+  
+      // Display bot response
+      const botDiv = document.createElement("div");
+      botDiv.textContent = "Bot: " + botMessage;
+      botDiv.classList.add("text-sm", "mb-2", "text-green-600");
+      chatWindow.appendChild(botDiv);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    } catch (error) {
+      console.error("Error fetching response:", error);
+    }
+  }
+  
+  // Send message on button click
+  document.getElementById("sendButton").addEventListener("click", sendMessage);
+  
+  // Send message on Enter key press
+  document.getElementById("chatInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
   window.logoutUser = logoutUser;
