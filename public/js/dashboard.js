@@ -94,4 +94,105 @@
     }
   });
 
+  async function saveDocument(userId, title, category, content) {
+    try {
+        const docRef = doc(collection(db, "users", userId, "documents"));
+        await setDoc(docRef, {
+            name: title,
+            category: category, // "bible_study", "general_notes", or "chat_log"
+            date: new Date(),
+            content: content, // Store the content of the document (HTML or plain text)
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        });
+        console.log("Document saved.");
+    } catch (error) {
+        console.error("Error saving document:", error);
+        throw error;  // Rethrow to handle it in the calling function
+    }
+}
+
+async function fetchDocuments(userId) {
+  try {
+      const documentsRef = collection(db, "users", userId, "documents");
+      const querySnapshot = await getDocs(documentsRef);
+
+      // Clear previous table entries
+      const table = document.getElementById('documentsTable');
+      table.innerHTML = ""; // Clear table
+
+      // Populate table with fetched documents
+      querySnapshot.forEach(doc => {
+          const document = doc.data();
+          const row = table.insertRow();
+          
+          const nameCell = row.insertCell(0);
+          const categoryCell = row.insertCell(1);
+          const dateCell = row.insertCell(2);
+          const actionsCell = row.insertCell(3);
+
+          nameCell.textContent = document.name;
+          categoryCell.textContent = document.category;
+          dateCell.textContent = new Date(document.date.seconds * 1000).toLocaleDateString();
+
+          // Button to view the document
+          actionsCell.innerHTML = `<button onclick="viewDocument('${doc.id}')">View</button>`;
+      });
+  } catch (error) {
+      console.error("Error fetching documents: ", error);
+  }
+}
+
+async function viewDocument(docId, userId) {
+  try {
+      const docRef = doc(db, "users", userId, "documents", docId);
+      const docSnapshot = await getDoc(docRef);
+
+      if (docSnapshot.exists()) {
+          const document = docSnapshot.data();
+          alert(`
+              Name: ${document.name}
+              Category: ${document.category}
+              Date: ${new Date(document.date.seconds * 1000).toLocaleDateString()}
+              Content: ${document.content}
+          `);
+      } else {
+          console.log("No such document!");
+      }
+  } catch (error) {
+      console.error("Error retrieving document: ", error);
+  }
+}
+
+const quill = new Quill('#editor-container', {
+  theme: 'snow',
+  modules: {
+    toolbar: '#toolbar',
+  },
+});
+
+document.getElementById('save-btn').addEventListener('click', async function() {
+  const title = document.getElementById('title-input').value;
+  const category = document.getElementById('category-select').value;
+  const content = quill.root.innerHTML; // Get the content from Quill editor
+
+  if (!title || !content) {
+      alert('Please enter a title and some content before saving.');
+      return;
+  }
+
+  const user = userCredential.user;
+  const userId = user.uid; // Replace with actual userId, possibly from auth state
+  try {
+      await saveDocument(userId, title, category, content);
+      alert('Document saved successfully!');
+  } catch (error) {
+      console.error("Error saving document: ", error);
+      alert('Error saving the document. Please try again.');
+  }
+});
+
+
+
+
   window.logoutUser = logoutUser;

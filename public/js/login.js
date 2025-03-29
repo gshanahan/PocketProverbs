@@ -46,13 +46,13 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "http
       });
     }
 
-    async function saveUserData(userId, email) {
+    async function saveUserData(userId, email, profilePictureUrl = null) {
         try {
             const userRef = doc(db, "users", userId); // Creates /users/{userId}
             await setDoc(userRef, {
                 email: email,
                 createdAt: new Date(),
-                savedStudies: [] // Empty array for studies (optional)
+                profilePicture: profilePictureUrl, // Optional profile picture
             });
             console.log("User data saved in Firestore.");
         } catch (error) {
