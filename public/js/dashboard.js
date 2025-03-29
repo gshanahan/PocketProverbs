@@ -62,7 +62,10 @@
 //#2: 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
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
-          messages: [{ role: "user", content: userMessage }]
+          messages: [
+            { role: "system", content: "You are a biblical scholar and research assistant. You will only answer questions related to the Bible, its history, context, and teachings. If asked non-biblical questions, politely redirect the user to ask about biblical topics." },
+            { role: "user", content: userMessage }
+          ]
         })
       });
   
