@@ -101,6 +101,17 @@
     }
   });
 
+  // Send message on button click
+  document.getElementById("sendButton2").addEventListener("click", sendMessage);
+  
+  // Send message on Enter key press
+  document.getElementById("chatInput2").addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
   async function saveDocument(userId, title, category, content) {
     try {
         const docRef = doc(collection(db, "users", userId, "documents"));
