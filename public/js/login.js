@@ -39,7 +39,7 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
             saveUserData(userCredential.user, email);
     
             // Redirect after Firestore data is saved
-            window.location.href = "/index.html";
+            //window.location.href = "/index.html";         /////ADD THIS BACK AFTER TESTING
             hideLoading();
         })
         .catch((error) => {
@@ -60,7 +60,6 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
             });
     
             console.log("User data saved in Firestore.");
-            alert("User data saved in Firestore.");
         } catch (error) {
             console.error("Error saving user data:", error);
             alert("Error saving user data:", error);
