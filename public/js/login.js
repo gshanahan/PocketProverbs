@@ -28,23 +28,25 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
     async function registerUser() {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-    
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-    
-            console.log("Account created:", user.uid);
-    
+
+        showLoading();
+
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            console.log("Account created:", userCredential.user);
+
             // Save user data to Firestore
-            await saveUserData(user.uid, email);
+            saveUserData(user.uid, email);
     
             // Redirect after Firestore data is saved
             window.location.href = "/index.html";
-    
-        } catch (error) {
+            hideLoading();
+        })
+        .catch((error) => {
             console.error("Error:", error.message);
             alert(error.message);
-        }
+            hideLoading();
+        });
     }
     
     // Function to Save User Data in Firestore
