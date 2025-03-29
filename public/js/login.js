@@ -84,4 +84,4 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
       
   
     window.loginUser = loginUser;
-    //window.registerUser = registerUser;          ///////////////////////////////////////////
+    window.registerUser = registerUser;          ///////////////////////////////////////////
