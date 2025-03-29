@@ -189,8 +189,10 @@ document.getElementById('save-btn').addEventListener('click', async function() {
       return;
   }
 
-  const user = auth.user;
-  const userId = user.uid; // Replace with actual userId, possibly from auth state
+  const auth = getAuth();
+  // Get the current logged-in user
+  const user = auth.currentUser;
+  const userId = user.uid;
   console.log(userId);
   try {
       await saveDocument(userId, title, category, content);
