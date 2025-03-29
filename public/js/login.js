@@ -56,10 +56,11 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
             await setDoc(userRef, {
                 email: email,
                 createdAt: serverTimestamp(), // Firestore timestamp instead of new Date()
-                profilePicture: "" // Ensuring null if no profile picture
+                profilePicture: null // Ensuring null if no profile picture
             });
     
             console.log("User data saved in Firestore.");
+            alert("User data saved in Firestore.");
         } catch (error) {
             console.error("Error saving user data:", error);
             alert("Error saving user data:", error);
