@@ -164,12 +164,12 @@ async function viewDocument(docId, userId) {
   }
 }
 
-const quill = new Quill('#editor-container', {
-  theme: 'snow',
-  modules: {
-    toolbar: '#toolbar',
-  },
-});
+//const quill = new Quill('#editor-container', {
+//  theme: 'snow',
+//  modules: {
+//    toolbar: '#toolbar',
+//  },
+//});
 
 document.getElementById('save-btn').addEventListener('click', async function() {
   const title = document.getElementById('title-input').value;
