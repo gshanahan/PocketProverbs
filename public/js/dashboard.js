@@ -189,7 +189,7 @@ document.getElementById('save-btn').addEventListener('click', async function() {
       return;
   }
 
-  const user = userCredential.user;
+  const user = auth.user;
   const userId = user.uid; // Replace with actual userId, possibly from auth state
   console.log(userId);
   try {
