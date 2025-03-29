@@ -55,6 +55,37 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "http
             console.error("Error saving user data:", error);
         }
     }
+
+    function showLoading() {
+        const overlay = document.getElementById("loadingOverlay");
+        overlay.classList.remove("hidden");
+      }
+      
+      function hideLoading() {
+        const overlay = document.getElementById("loadingOverlay");
+        overlay.classList.add("hidden");
+      }
+      
+      // Example login function
+      async function login() {
+        showLoading();
+        try {
+          // Simulating login delay
+          await new Promise((resolve) => setTimeout(resolve, 2000)); 
+      
+          // Your login logic here
+          console.log("Login successful!");
+          hideLoading();
+          // Redirect to dashboard or load dashboard data
+        } catch (error) {
+          console.error("Login failed", error);
+          hideLoading();
+        }
+      }
+      
+      // Trigger login with button click
+      document.getElementById("loginButton").addEventListener("click", login);
+      
   
     window.loginUser = loginUser;
     window.registerUser = registerUser;
