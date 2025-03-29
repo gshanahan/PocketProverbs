@@ -74,8 +74,15 @@ async function fetchVerseAnalysis(verse) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const responseData = await response.json();
-        console.log("AI Response:", responseData);
+        const data = await response.json();
+        console.log("AI Response:", data);
+
+        // Check if data is in the expected format
+        if (Array.isArray(data) && data[0]?.summary_text) {
+            return data[0].summary_text;
+        } else {
+            return "Analysis not available.";
+        }
 
         return responseData[0]?.summary_text || "Analysis not available.";
 
