@@ -1,4 +1,4 @@
-import { auth, db, doc, setDoc, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "./firebaseConfig.js";
+import { auth, db, doc, setDoc, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged} from "./firebaseConfig.js";
   
     document.addEventListener("DOMContentLoaded", () => {
         // Attach event listeners to buttons
@@ -57,6 +57,17 @@ import { auth, db, doc, setDoc, createUserWithEmailAndPassword, signInWithEmailA
             console.error("Error saving user data:", error);
         }
     }
+
+    // Listen for authentication state changes
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in
+            console.log("User signed in: ", user.uid);
+            saveUserData(user.uid, user.email);
+        } else {
+            console.log("No user signed in.");
+        }
+    });
 
     function showLoading() {
         const overlay = document.getElementById("loadingOverlay");
