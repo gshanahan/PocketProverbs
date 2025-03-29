@@ -59,7 +59,7 @@
           'Authorization': `Bearer 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` // Replace with your API key
 },
         body: JSON.stringify({
-          model: "gpt-40-mini",
+          model: "gpt-4o-mini",
           messages: [{ role: "user", content: userMessage }]
         })
       });
