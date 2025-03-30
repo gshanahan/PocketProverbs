@@ -47,27 +47,22 @@ async function fetchDailyVerse() {
 async function fetchVerseAnalysis(verse) {
     try {
         console.log("Fetching AI analysis for:", verse);
-        
-//        const response = await fetch("https://api.openai.com/v1/chat/completions", {  
-//            method: "POST",
-//            headers: {
-//                "Content-Type": "application/json",
-//                'Authorization': `Bearer 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` // Replace with your API key
-//            },
-//            body: JSON.stringify({
-//                model: "gpt-3.5-turbo",  // Use "gpt-4" if you have access
-//                messages: [
-//                    { role: "system", content: "You are a Bible scholar providing theological insights." },
-//                    { role: "user", content: `Analyze this Bible verse in a few short sentences: ${verse}` }
-//                ],
-//                max_tokens: 100
-//            })
-//        });
 
-        const response = await fetch("https://api-inference.huggingface.co/models/facebook/bart-large-cnn", {
+        // Make sure to replace with your actual OpenAI API key (or other GPT API key if different)
+        const apiKey = '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';
+
+        const response = await fetch("https://api.openai.com/v1/completions", {
             method: "POST",
-            headers: { "Authorization": "Bearer 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" },
-            body: JSON.stringify({ inputs: `Analyze this Bible verse in 100 words or less: ${verse}` })
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+                model: "text-davinci-003",  // GPT-3 model (you can adjust this if you want to use a different model)
+                prompt: `Analyze this Bible verse in 100 words or less: ${verse}`,
+                max_tokens: 150,  // You can adjust max_tokens for shorter or longer responses
+                temperature: 0.7,  // Temperature for randomness (lower = more deterministic)
+            }),
         });
 
         if (!response.ok) {
@@ -75,22 +70,21 @@ async function fetchVerseAnalysis(verse) {
         }
 
         const data = await response.json();
-        console.log("AI Response:", data);
+        console.log("GPT Response:", data);
 
-        // Check if data is in the expected format
-        if (Array.isArray(data) && data[0]?.summary_text) {
-            return data[0].summary_text;
+        // Check if the response contains the expected data
+        if (data.choices && data.choices.length > 0) {
+            return data.choices[0].text.trim();  // Get the text response from GPT
         } else {
             return "Analysis not available.";
         }
-
-        return responseData[0]?.summary_text || "Analysis not available.";
 
     } catch (error) {
         console.error("Error fetching AI analysis:", error);
         return "Analysis not available.";
     }
 }
+
 
 
 // Fetch the daily verse when the page loads
