@@ -1,6 +1,6 @@
 import { auth, db, onAuthStateChanged, doc, setDoc, collection} from "./firebaseConfig.js";
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
-import { showSuccessAlert, showErrorAlert, showConfirmationDialog } from 'js/alerts.js';
+import { showSuccessAlert, showErrorAlert, showConfirmationDialog } from './alerts.js';
 
 //Chat window logic
 async function sendMessage() {
