@@ -1,5 +1,6 @@
 import { auth, db, onAuthStateChanged, doc, setDoc, collection} from "./firebaseConfig.js";
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+import { showSuccessAlert, showErrorAlert, showConfirmationDialog } from 'js/alerts.js';
 
 //Chat window logic
 async function sendMessage() {
@@ -96,10 +97,12 @@ const userId = user.uid;
 console.log(userId);
 try {
     await saveDocument(userId, title, category, content);
-    alert('Document saved successfully!');
+    //alert('Document saved successfully!');
+    showSuccessAlert('Success', 'Document saved successfully!');
 } catch (error) {
     console.error("Error saving document: ", error);
-    alert('Error saving the document. Please try again.');
+    //alert('Error saving the document. Please try again.');
+    showErrorAlert('Error', 'There was an issue saving the document.');
 }
 });
 

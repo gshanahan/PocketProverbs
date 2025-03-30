@@ -1,5 +1,6 @@
 import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, serverTimestamp} from "./firebaseConfig.js";
-  
+import { showSuccessAlert, showErrorAlert, showConfirmationDialog } from './alerts.js';  
+
     document.addEventListener("DOMContentLoaded", () => {
         // Attach event listeners to buttons
         document.getElementById("loginButton").addEventListener("click", loginUser);
@@ -37,6 +38,7 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
 
             // Save user data to Firestore
             saveUserData(userCredential.user, email);
+            showSuccessAlert('Success!', 'Account successfully created.');
             hideLoading();
         })
         .catch((error) => {
