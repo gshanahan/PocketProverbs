@@ -38,7 +38,7 @@ import { showSuccessAlert, showErrorAlert, showConfirmationDialog } from './aler
 
             // Save user data to Firestore
             saveUserData(userCredential.user, email);
-            showSuccessAlert('Success!', 'Account successfully created.');
+            //showSuccessAlert('Success!', 'Account successfully created.');
             hideLoading();
         })
         .catch((error) => {
