@@ -55,10 +55,13 @@ async function fetchVerseAnalysis(verse) {
                 'Authorization': `Bearer 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` // Replace with your API key
             },
             body: JSON.stringify({
-                model: "gpt-3.5-turbo",  // GPT-3 model (you can adjust this if you want to use a different model)
-                prompt: `Analyze this Bible verse in 100 words or less: ${verse}`,
-                max_tokens: 150,  // You can adjust max_tokens for shorter or longer responses
-                temperature: 0.7,  // Temperature for randomness (lower = more deterministic)
+                model: "gpt-3.5-turbo", // or use "gpt-4" if available
+                messages: [
+                    { role: "system", content: "You are an assistant that provides concise and informative analysis." },
+                    { role: "user", content: `Analyze this Bible verse in 100 words or less: ${verse}` }
+                ],
+                max_tokens: 150,   // Adjust to control the response length
+                temperature: 0.7,  // Adjust the creativity level (lower is more deterministic)
             }),
         });
 
