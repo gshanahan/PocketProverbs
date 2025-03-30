@@ -23,9 +23,3 @@ body {
     background-color: #303f9f;
   }
   
-  #verseAnalysis {
-    font-size: 2vw; /* Default font size */
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-}
