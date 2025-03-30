@@ -71,13 +71,9 @@ async function fetchVerseAnalysis(verse) {
 
         const data = await response.json();
         console.log("GPT Response:", data);
+        const botMessage = data.choices[0].message.content;
 
-        // Check if the response contains the expected data
-        if (data.choices && data.choices.length > 0) {
-            return data.choices[0].text.trim();  // Get the text response from GPT
-        } else {
-            return "Analysis not available.";
-        }
+        return botMessage;
 
     } catch (error) {
         console.error("Error fetching AI analysis:", error);
