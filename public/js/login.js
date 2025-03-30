@@ -1,5 +1,5 @@
 import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, serverTimestamp} from "./firebaseConfig.js";
-import { showSuccessAlert, showErrorAlert, showConfirmationDialog } from './alerts.js';  
+//import { showSuccessAlert, showErrorAlert, showConfirmationDialog } from './alerts.js';  
 
     document.addEventListener("DOMContentLoaded", () => {
         // Attach event listeners to buttons
