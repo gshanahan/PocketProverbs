@@ -1,4 +1,4 @@
-import { auth, db, onAuthStateChanged, doc, setDoc} from "./firebaseConfig.js";
+import { auth, db, onAuthStateChanged, doc, setDoc, collection} from "./firebaseConfig.js";
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
 //Chat window logic
