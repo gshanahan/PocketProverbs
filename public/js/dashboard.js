@@ -1,4 +1,4 @@
-  import { auth, db, onAuthStateChanged, doc, setDoc} from "./firebaseConfig.js";
+  import { auth, db, onAuthStateChanged, doc, setDoc, getDocs, collection, query, where} from "./firebaseConfig.js";
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
   // Example sign-out function (replace with Firebase auth method)
@@ -171,6 +171,76 @@ document.getElementById('save-btn').addEventListener('click', async function() {
       alert('Please enter a title and some content before saving.');
       return;
   }
+
+async function fetchDocuments() {
+  try {
+    const user = auth.currentUser;  // Get the current logged-in user
+
+    if (!user) {
+      console.log('User is not logged in');
+      return;
+    }
+
+    // Get documents for the current user from the 'documents' collection
+    const q = query(collection(db, "documents"), where("userId", "==", user.uid));
+    const querySnapshot = await getDocs(q);
+
+    // Group documents by category
+    const documentsByCategory = {
+      bible_study: [],
+      general_notes: [],
+      chat_log: []
+    };
+
+    querySnapshot.forEach((doc) => {
+      const docData = doc.data();
+      const { name, createdAt, category } = docData;
+
+      // Add document to the appropriate category group
+      if (category === "bible_study") {
+        documentsByCategory.bible_study.push({ name, createdAt });
+      } else if (category === "general_notes") {
+        documentsByCategory.general_notes.push({ name, createdAt });
+      } else if (category === "chat_log") {
+        documentsByCategory.chat_log.push({ name, createdAt });
+      }
+    });
+
+    // Populate the table with documents
+    populateTable(documentsByCategory);
+
+  } catch (error) {
+    console.error('Error fetching documents: ', error);
+  }
+}
+
+function populateTable(documentsByCategory) {
+  const tbody = document.getElementById('documents-tbody');
+  tbody.innerHTML = '';  // Clear previous content
+
+  // Iterate through document categories and display them in the table
+  for (const [category, documents] of Object.entries(documentsByCategory)) {
+    documents.forEach((doc) => {
+      const { name, createdAt } = doc;
+      const formattedDate = createdAt.toDate().toLocaleDateString();  // Format the date to a readable string
+
+      const row = document.createElement('tr');
+      row.classList.add('document-row');
+
+      row.innerHTML = `
+        <td class="px-4 py-2 border-b">${name}</td>
+        <td class="px-4 py-2 border-b">${formattedDate}</td>
+        <td class="px-4 py-2 border-b">${category.replace('_', ' ').toUpperCase()}</td> <!-- Format category for display -->
+      `;
+
+      tbody.appendChild(row);
+    });
+  }
+}
+
+// Call the function to fetch documents on page load
+fetchDocuments();
+
 
   const auth = getAuth();
   // Get the current logged-in user
