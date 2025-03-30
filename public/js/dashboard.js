@@ -89,69 +89,12 @@
       console.error("Error fetching response:", error);
     }
   }
-
-   //Chat window #2 logic
-   async function sendMessage2() {
-    const chatWindow2 = document.getElementById("chatWindow2");
-    const chatInput2 = document.getElementById("chatInput2");
-    const userMessage2 = chatInput2.value;
-    if (!userMessage2.trim()) return;
-  
-    // Display user message
-    const userDiv = document.createElement("div");
-    userDiv.textContent = "You: " + userMessage2;
-    userDiv.classList.add("text-sm", "mb-2", "text-blue-600");
-    chatWindow2.appendChild(userDiv);
-    chatInput2.value = "";
-  
-    try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization': `Bearer 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` // Replace with your API key
-},
-//#1: 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
-//#2: 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
-        body: JSON.stringify({
-          model: "gpt-3.5-turbo",
-          messages: [
-            { role: "system", content: "You are a biblical scholar and research assistant. You will only answer questions related to the Bible, its history, context, and teachings. If asked non-biblical questions, politely redirect the user to ask about biblical topics." },
-            { role: "user", content: userMessage2 }
-          ]
-        })
-      });
-  
-      const data = await response.json();
-      const botMessage2 = data.choices[0].message.content;
-  
-      // Display bot response
-      const botDiv = document.createElement("div");
-      botDiv.textContent = "Bot: " + botMessage2;
-      botDiv.classList.add("text-sm", "mb-2", "text-green-600");
-      chatWindow2.appendChild(botDiv);
-      chatWindow2.scrollTop = chatWindow2.scrollHeight;
-    } catch (error) {
-      console.error("Error fetching response:", error);
-    }
-  }
   
   // Send message on button click
-  document.getElementById("sendButton2").addEventListener("click", sendMessage);
+  document.getElementById("sendButton").addEventListener("click", sendMessage);
   
   // Send message on Enter key press
   document.getElementById("chatInput").addEventListener("keydown", function (e) {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-
-  // Send message on button click
-  document.getElementById("sendButton2").addEventListener("click", sendMessage);
-  
-  // Send message on Enter key press
-  document.getElementById("chatInput2").addEventListener("keydown", function (e) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
