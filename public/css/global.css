@@ -24,20 +24,8 @@ body {
   }
   
   #verseAnalysis {
-    font-size: clamp(14px, 4vw, 24px); /* Dynamic size between 14px and 24px */
-    padding: 10px;
+    font-size: 2em; /* Default font size */
     max-width: 100%;
     overflow-wrap: break-word;
-}
-
-@media (max-width: 768px) {
-    #verseAnalysis {
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    #verseAnalysis {
-        font-size: 14px;
-    }
+    word-wrap: break-word;
 }
