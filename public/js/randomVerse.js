@@ -58,7 +58,7 @@ async function fetchVerseAnalysis(verse) {
                 model: "gpt-3.5-turbo", // or use "gpt-4" if available
                 messages: [
                     { role: "system", content: "You are an assistant that provides concise and informative analysis." },
-                    { role: "user", content: `Analyze this Bible verse in 100 words or less: ${verse}` }
+                    { role: "user", content: `Analyze, give historical context, or provide some insight for this Bible verse in 50 words or less: ${verse}` }
                 ],
                 max_tokens: 150,   // Adjust to control the response length
                 temperature: 0.7,  // Adjust the creativity level (lower is more deterministic)
