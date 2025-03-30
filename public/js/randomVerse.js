@@ -48,17 +48,14 @@ async function fetchVerseAnalysis(verse) {
     try {
         console.log("Fetching AI analysis for:", verse);
 
-        // Make sure to replace with your actual OpenAI API key (or other GPT API key if different)
-        const apiKey = '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';
-
-        const response = await fetch("https://api.openai.com/v1/completions", {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${apiKey}`,
+                'Authorization': `Bearer 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` // Replace with your API key
             },
             body: JSON.stringify({
-                model: "text-davinci-003",  // GPT-3 model (you can adjust this if you want to use a different model)
+                model: "gpt-3.5-turbo",  // GPT-3 model (you can adjust this if you want to use a different model)
                 prompt: `Analyze this Bible verse in 100 words or less: ${verse}`,
                 max_tokens: 150,  // You can adjust max_tokens for shorter or longer responses
                 temperature: 0.7,  // Temperature for randomness (lower = more deterministic)
