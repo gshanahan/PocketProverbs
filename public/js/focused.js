@@ -80,7 +80,6 @@ async function saveDocument(userId, title, category, content) {
 }
 
 document.getElementById('save-btn').addEventListener('click', async function() {
-alert("Save button pressed");
 const title = document.getElementById('title-input').value;
 const category = document.getElementById('category-select').value;
 const content = quill.root.innerHTML; // Get the content from Quill editor
@@ -95,7 +94,6 @@ const auth = getAuth();
 const user = auth.currentUser;
 const userId = user.uid;
 console.log(userId);
-alert("This is your userId:", userId);
 try {
     await saveDocument(userId, title, category, content);
     alert('Document saved successfully!');
