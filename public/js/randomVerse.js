@@ -33,7 +33,7 @@ async function fetchDailyVerse() {
                 localStorage.setItem("verseDate", today);
 
                 // Display analysis
-                document.getElementById("verseAnalysis").value = analysis;
+                document.getElementById('verseAnalysis').innerText = analysis;
             } else {
                 document.getElementById("dailyVerse").innerText = "Could not fetch verse.";
             }
