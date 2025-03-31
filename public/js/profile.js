@@ -24,9 +24,9 @@ function fetchUserProfile() {
 async function getUserStats(userId) {
     try {
         const userDocRef = doc(db, "users", userId);
-        const userDoc = await userDocRef.get();
+        const userDoc = await getDoc(userDocRef);  // Use getDoc() to fetch the document
 
-        if (userDoc.exists) {
+        if (userDoc.exists()) {  // Ensure the document exists before accessing its data
             const data = userDoc.data();
             document.getElementById("queries-count").textContent = data.queries || 0;
             document.getElementById("documents-count").textContent = data.documentsSaved || 0;
