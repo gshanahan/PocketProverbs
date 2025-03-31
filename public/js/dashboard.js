@@ -2,6 +2,7 @@
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
   document.getElementById("signOutBtn").addEventListener("click", logoutUser);
+  document.getElementById("mobile-signOut").addEventListener("click", logoutUser);
 
   function logoutUser() {
       auth.signOut().then(() => {
