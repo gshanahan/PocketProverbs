@@ -23,7 +23,7 @@ function fetchUserProfile() {
 // Fetch user stats (queries made and documents saved)
 async function getUserStats(userId) {
     try {
-        const userDocRef = db.collection('users').doc(userId);
+        const userDocRef = doc(db, "users", userId);
         const userDoc = await userDocRef.get();
 
         if (userDoc.exists) {
