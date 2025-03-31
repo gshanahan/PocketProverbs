@@ -198,7 +198,7 @@ async function loadDocument() {
       if (titleElement) titleElement.value = docData.name;
 
       // Set the content using Quill
-      if (quill && docData.content) quill.setContents(docData.content);
+      if (quill && docData.content) quill.root.innerHTML = docData.content;
     } else {
       console.error('No such document!');
     }
