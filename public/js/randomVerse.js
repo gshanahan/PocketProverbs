@@ -8,7 +8,7 @@ async function fetchDailyVerse() {
     if (storedVerse && storedAnalysis && storedDate === today) {
         // Use stored verse and analysis if available
         document.getElementById("dailyVerse").innerText = storedVerse;
-        document.getElementById("verseAnalysis").value = storedAnalysis;
+        document.getElementById("verseAnalysis").innerText = storedAnalysis;
     } else {
         try {
             const response = await fetch('https://bible-api.com/?random=1'); // Fetch a random verse
