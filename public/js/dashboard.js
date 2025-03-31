@@ -175,7 +175,12 @@ function populateTable(documentsByCategory) {
   for (const [category, documents] of Object.entries(documentsByCategory)) {
     documents.forEach((doc) => {
       const { name, createdAt } = doc;
-      const formattedDate = createdAt.toDate().toLocaleDateString();  // Format the date to a readable string
+      
+      // Check if createdAt is a valid timestamp
+      let formattedDate = 'N/A'; // Default if date is not available
+      if (createdAt && typeof createdAt.toDate === 'function') {
+        formattedDate = createdAt.toDate().toLocaleDateString(); 
+      }
 
       const row = document.createElement('tr');
       row.classList.add('document-row');
@@ -183,7 +188,7 @@ function populateTable(documentsByCategory) {
       row.innerHTML = `
         <td class="px-4 py-2 border-b">${name}</td>
         <td class="px-4 py-2 border-b">${formattedDate}</td>
-        <td class="px-4 py-2 border-b">${category.replace('_', ' ').toUpperCase()}</td> <!-- Format category for display -->
+        <td class="px-4 py-2 border-b">${category.replace('_', ' ').toUpperCase()}</td>
       `;
 
       tbody.appendChild(row);
