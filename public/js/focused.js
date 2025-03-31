@@ -185,7 +185,14 @@ async function loadDocument() {
 
     if (docSnap.exists()) {
       const docData = docSnap.data();
-      document.getElementById('editor-container').value = docData.content;  // Assuming you have a textarea or editor with this ID
+
+      // Set the title and content
+      const titleElement = document.getElementById('title-input'); // Make sure this ID matches your HTML
+      const contentElement = document.getElementById('editor-container'); // Make sure this ID matches your HTML
+
+      if (titleElement) titleElement.value = docData.name;
+      if (contentElement) contentElement.value = docData.content;
+
     } else {
       console.error('No such document!');
     }
@@ -193,6 +200,7 @@ async function loadDocument() {
     console.error('Error loading document:', error);
   }
 }
+
 
 // Call loadDocument on page load
 document.addEventListener('DOMContentLoaded', () => {
