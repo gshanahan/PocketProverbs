@@ -175,7 +175,7 @@ function populateTable(documentsByCategory) {
   for (const [category, documents] of Object.entries(documentsByCategory)) {
     documents.forEach((doc) => {
       const { name, createdAt } = doc;
-      
+      console.log(createdAt);
       // Check if createdAt is a valid timestamp
       let formattedDate = 'N/A'; // Default if date is not available
       if (createdAt && typeof createdAt.toDate === 'function') {
@@ -197,6 +197,8 @@ function populateTable(documentsByCategory) {
 }
 
 // Call the function to fetch documents on page load
-fetchDocuments();
+document.addEventListener('DOMContentLoaded', function () {
+  fetchDocuments();
+});
 
 window.logoutUser = logoutUser;
