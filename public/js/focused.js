@@ -195,6 +195,16 @@ async function loadDocument() {
 }
 
 // Call loadDocument on page load
-document.addEventListener('DOMContentLoaded', loadDocument);
+document.addEventListener('DOMContentLoaded', () => {
+  onAuthStateChanged(auth, (user) => {
+      if (user) {
+          loadDocument();
+      } else {
+          console.error("User not authenticated");
+          // Redirect to login page or show a message
+          window.location.href = "/login.html";
+      }
+  });
+});
 
 window.logoutUser = logoutUser;
