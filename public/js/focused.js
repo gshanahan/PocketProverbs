@@ -163,4 +163,38 @@ try {
 }
 });
 
+function getDocumentIdFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('docId');
+}
+
+async function loadDocument() {
+  const docId = getDocumentIdFromUrl();
+  if (!docId) {
+    console.error('No document ID found in URL');
+    return;
+  }
+
+  try {
+    const user = auth.currentUser;
+    if (!user) throw new Error('User not authenticated');
+
+    // Get the document from Firestore
+    const docRef = doc(db, `users/${user.uid}/documents`, docId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const docData = docSnap.data();
+      document.getElementById('editor-container').value = docData.content;  // Assuming you have a textarea or editor with this ID
+    } else {
+      console.error('No such document!');
+    }
+  } catch (error) {
+    console.error('Error loading document:', error);
+  }
+}
+
+// Call loadDocument on page load
+document.addEventListener('DOMContentLoaded', loadDocument);
+
 window.logoutUser = logoutUser;

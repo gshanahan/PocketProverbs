@@ -198,16 +198,12 @@ function populateTable(documentsByCategory) {
   // Iterate through document categories and display them in the table
   for (const [category, documents] of Object.entries(documentsByCategory)) {
     documents.forEach((doc) => {
-      const { name, createdAt } = doc;
-      console.log(createdAt);
-      // Check if createdAt is a valid timestamp
-      let formattedDate = 'N/A'; // Default if date is not available
-      if (createdAt && typeof createdAt.toDate === 'function') {
-        formattedDate = createdAt.toDate().toLocaleDateString(); 
-      }
+      const { name, createdAt, docId } = doc;
+      const formattedDate = createdAt.toDate().toLocaleDateString();
 
       const row = document.createElement('tr');
       row.classList.add('document-row');
+      row.dataset.docId = docId;  // Store the document ID in a data attribute
 
       row.innerHTML = `
         <td class="px-4 py-2 border-b">${name}</td>
@@ -215,9 +211,17 @@ function populateTable(documentsByCategory) {
         <td class="px-4 py-2 border-b">${category.replace('_', ' ').toUpperCase()}</td>
       `;
 
+      // Add a click event to open the document
+      row.addEventListener('click', () => openDocument(docId));
+
       tbody.appendChild(row);
     });
   }
+}
+
+function openDocument(docId) {
+  // Redirect to the editor page, passing the document ID as a query parameter
+  window.location.href = `focused.html?docId=${docId}`;
 }
 
 // Call the function to fetch documents on page load
