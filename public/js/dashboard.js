@@ -1,13 +1,7 @@
   import { auth, db, onAuthStateChanged, doc, setDoc, getDocs, collection, query, where} from "./firebaseConfig.js";
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
-  // Example sign-out function (replace with Firebase auth method)
-  document.addEventListener('DOMContentLoaded', () => {
-      const signOutBtn = document.getElementById('signOutBtn');
-      if (signOutBtn) {
-          signOutBtn.addEventListener('click', logoutUser);
-      }
-  });
+  document.getElementById("signOutBtn").addEventListener("click", logoutUser);
 
   function logoutUser() {
       auth.signOut().then(() => {
@@ -18,7 +12,6 @@
           console.error("Error signing out: ", error);
       });
   }
-
 
   // Toggle Mobile Menu
   const menuBtn = document.getElementById("menu-btn");
