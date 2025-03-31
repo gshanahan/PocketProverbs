@@ -64,7 +64,7 @@
   
       // Display bot response
       const botDiv = document.createElement("div");
-      botDiv.textContent = "Bot: " + botMessage;
+      botDiv.textContent = "BibleBuddy: " + botMessage;
       botDiv.classList.add("text-sm", "mb-2", "text-green-600");
       chatWindow.appendChild(botDiv);
       chatWindow.scrollTop = chatWindow.scrollHeight;
