@@ -172,16 +172,17 @@ async function fetchDocuments(user) {
     querySnapshot.forEach((doc) => {
       const docData = doc.data();
       const { name, createdAt, category } = docData;
+      const docId = doc.id;
+
 
       // Add document to the appropriate category group
       if (category === "bible_study") {
-        documentsByCategory.bible_study.push({ name, createdAt });
+        documentsByCategory.bible_study.push({ name, createdAt, docId });
       } else if (category === "general_notes") {
-        documentsByCategory.general_notes.push({ name, createdAt });
+        documentsByCategory.general_notes.push({ name, createdAt, docId });
       } else if (category === "chat_log") {
-        documentsByCategory.chat_log.push({ name, createdAt });
+        documentsByCategory.chat_log.push({ name, createdAt, docId });
       }
-    });
 
     // Populate the table with documents
     populateTable(documentsByCategory);
