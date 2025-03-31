@@ -156,17 +156,6 @@ async function viewDocument(docId, userId) {
 //  },
 //});
 
-document.getElementById('save-btn').addEventListener('click', async function() {
-  alert("Save button pressed");
-  const title = document.getElementById('title-input').value;
-  const category = document.getElementById('category-select').value;
-  const content = quill.root.innerHTML; // Get the content from Quill editor
-
-  if (!title || !content) {
-      alert('Please enter a title and some content before saving.');
-      return;
-  }
-
 async function fetchDocuments() {
   try {
     const user = auth.currentUser;  // Get the current logged-in user
@@ -235,21 +224,5 @@ function populateTable(documentsByCategory) {
 
 // Call the function to fetch documents on page load
 fetchDocuments();
-
-
-  const auth = getAuth();
-  // Get the current logged-in user
-  const user = auth.currentUser;
-  const userId = user.uid;
-  console.log(userId);
-  alert("This is your userId:", userId);
-  try {
-      await saveDocument(userId, title, category, content);
-      alert('Document saved successfully!');
-  } catch (error) {
-      console.error("Error saving document: ", error);
-      alert('Error saving the document. Please try again.');
-  }
-});
 
 window.logoutUser = logoutUser;
