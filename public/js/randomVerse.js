@@ -2,8 +2,9 @@ async function fetchDailyVerse() {
     const storedVerse = localStorage.getItem("dailyVerse");
     const storedAnalysis = localStorage.getItem("verseAnalysis");
     const storedDate = localStorage.getItem("verseDate");
-    const today = new Date().toISOString().split("T")[0]; // Get YYYY-MM-DD
+    const today = new Date().toISOString().split("T")[0]; // Get YYYY-MM-DD format
 
+    // Check if stored data exists and if the stored date matches today's date
     if (storedVerse && storedAnalysis && storedDate === today) {
         // Use stored verse and analysis if available
         document.getElementById("dailyVerse").innerText = storedVerse;
@@ -14,7 +15,7 @@ async function fetchDailyVerse() {
             const data = await response.json();
 
             if (data && data.text && data.reference) {
-                const verseText = `"${data.text}" - ${data.reference}`;
+                const verseText = `${data.text} - ${data.reference}`;
                 document.getElementById("dailyVerse").innerText = verseText;
 
                 let analysis = "";
@@ -33,7 +34,7 @@ async function fetchDailyVerse() {
                 localStorage.setItem("verseDate", today);
 
                 // Display analysis
-                document.getElementById('verseAnalysis').innerText = localStorage.getItem("verseAnalysis");
+                document.getElementById('verseAnalysis').innerText = analysis;
             } else {
                 document.getElementById("dailyVerse").innerText = "Could not fetch verse.";
             }
@@ -43,6 +44,7 @@ async function fetchDailyVerse() {
         }
     }
 }
+
 
 async function fetchVerseAnalysis(verse) {
     try {
