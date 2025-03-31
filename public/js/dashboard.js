@@ -183,6 +183,7 @@ async function fetchDocuments(user) {
       } else if (category === "chat_log") {
         documentsByCategory.chat_log.push({ name, createdAt, docId });
       }
+    });
 
     // Populate the table with documents
     populateTable(documentsByCategory);
