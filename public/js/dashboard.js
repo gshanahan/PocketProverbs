@@ -97,37 +97,6 @@
     }
 }
 
-async function fetchDocuments(userId) {
-  try {
-      const documentsRef = collection(db, "users", userId, "documents");
-      const querySnapshot = await getDocs(documentsRef);
-
-      // Clear previous table entries
-      const table = document.getElementById('documentsTable');
-      table.innerHTML = ""; // Clear table
-
-      // Populate table with fetched documents
-      querySnapshot.forEach(doc => {
-          const document = doc.data();
-          const row = table.insertRow();
-          
-          const nameCell = row.insertCell(0);
-          const categoryCell = row.insertCell(1);
-          const dateCell = row.insertCell(2);
-          const actionsCell = row.insertCell(3);
-
-          nameCell.textContent = document.name;
-          categoryCell.textContent = document.category;
-          dateCell.textContent = new Date(document.date.seconds * 1000).toLocaleDateString();
-
-          // Button to view the document
-          actionsCell.innerHTML = `<button onclick="viewDocument('${doc.id}')">View</button>`;
-      });
-  } catch (error) {
-      console.error("Error fetching documents: ", error);
-  }
-}
-
 async function viewDocument(docId, userId) {
   try {
       const docRef = doc(db, "users", userId, "documents", docId);
