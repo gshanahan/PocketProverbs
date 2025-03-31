@@ -2,22 +2,23 @@
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
   // Example sign-out function (replace with Firebase auth method)
-    document.addEventListener('DOMContentLoaded', () => {
-        const signOut = document.getElementById('signOutBtn');
-        if (signOut) {
-            signOut.addEventListener('click', logoutUser());
-        }
-    });
+  document.addEventListener('DOMContentLoaded', () => {
+      const signOut = document.getElementById('signOutBtn');
+      if (signOut) {
+          // Pass the function reference without invoking it
+          signOut.addEventListener('click', logoutUser);
+      }
+  });
 
-    function logoutUser() {
-        // Firebase auth sign-out logic
-        signOut(auth).then(() => {
-            // Redirect to the login page or sign-in page
-            window.location.href = '/login.html';
-        }).catch(function(error) {
-            console.error("Error signing out: ", error);
-        });
-    }
+  function logoutUser() {
+      // Firebase auth sign-out logic
+      signOut(auth).then(() => {
+          // Redirect to the login page or sign-in page
+          window.location.href = '/login.html';
+      }).catch(function(error) {
+          console.error("Error signing out: ", error);
+      });
+  }
 
   // Toggle Mobile Menu
   const menuBtn = document.getElementById("menu-btn");
