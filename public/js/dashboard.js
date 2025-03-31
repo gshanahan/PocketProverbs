@@ -158,11 +158,6 @@ async function fetchDocuments() {
   try {
     const user = auth.currentUser;  // Get the current logged-in user
 
-    if (!user) {
-      console.log('User is not logged in');
-      return;
-    }
-
     // Get documents for the current user from the 'documents' collection
     const q = query(collection(db, "documents"), where("userId", "==", user.uid));
     const querySnapshot = await getDocs(q);
