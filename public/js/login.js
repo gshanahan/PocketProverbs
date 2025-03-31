@@ -50,18 +50,27 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
     
     // Function to Save User Data in Firestore
     async function saveUserData(userId, email) {
-        const userRef = doc(db, "users", userId);
-            await setDoc(userRef, {
-                email: email,
-                createdAt: serverTimestamp(), // Firestore timestamp instead of new Date()
-                profilePicture: null, // Ensuring null if no profile picture
-                queries: 0,  // Initialize the queries count to 0
-                documentsSaved: 0  // Initialize the documents count to 0
-            });
-    
-            console.log("User data saved in Firestore.");
-            window.location.href = "/index.html"; // Redirect to private page
+      const userRef = doc(db, "users", userId);
+      const userDoc = await getDoc(userRef);
+
+      // If user document doesn't exist, initialize the data
+      if (!userDoc.exists()) {
+          await setDoc(userRef, {
+              email: email,
+              createdAt: serverTimestamp(), // Firestore timestamp instead of new Date()
+              profilePicture: null, // Ensuring null if no profile picture
+              queries: 0,  // Initialize the queries count to 0
+              documentsSaved: 0  // Initialize the documents count to 0
+          });
+
+          console.log("User data saved in Firestore.");
+      } else {
+          console.log("User data already exists. No need to overwrite.");
+      }
+
+      window.location.href = "/index.html"; // Redirect to private page
     }
+
 
     // Listen for authentication state changes
     onAuthStateChanged(auth, (user) => {
