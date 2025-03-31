@@ -1,1 +1,55 @@
-<script type="module" src="../public/js/authCheck.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account - PocketProverbs</title>
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#18122B]">
+ <!-- Profile Container -->
+ <div class="max-w-4xl mx-auto p-6">
+    <h1 class="text-3xl font-bold text-center mb-6">User Profile</h1>
+
+        <!-- Profile Info Section -->
+        <div class="flex items-center space-x-4 bg-white p-6 rounded-md shadow-md">
+            <!-- Profile Picture -->
+            <div class="flex-shrink-0">
+                <img id="profile-pic" src="./images/favicon.png" alt="Profile Picture" class="w-32 h-32 rounded-full object-cover border-2 border-gray-300">
+            </div>
+            <!-- User Info -->
+            <div>
+                <h2 class="text-2xl font-semibold mb-4">User Information</h2>
+                <p><strong>Email:</strong> <span id="user-email">Loading...</span></p>
+                <p><strong>Joined On:</strong> <span id="join-date">Loading...</span></p>
+                <input type="file" id="profile-pic-upload" class="mt-4 text-sm text-gray-700" accept="image/*">
+                <button id="upload-button" class="bg-blue-500 text-white px-4 py-2 mt-2 rounded-md" onclick="uploadProfilePicture()">Upload Picture</button>
+            </div>
+        </div>
+
+        <!-- Account Stats Section -->
+        <div class="bg-white p-6 mt-6 rounded-md shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Account Stats</h2>
+            <p><strong>Queries to BibleBuddy:</strong> <span id="queries-count">Loading...</span></p>
+            <p><strong>Documents Saved:</strong> <span id="documents-count">Loading...</span></p>
+        </div>
+
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.all.min.js"></script>
+  <!-- Quill.js -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <script>
+    // Initialize Quill editor
+    var quill = new Quill('#editor-container', {
+      theme: 'snow',  // Snow theme provides a clean UI
+      modules: { toolbar: '#toolbar' }
+    });
+  </script>
+  <script type="module" src="js/focused.js"></script>
+  <script type="module" src="js/authCheck.js"></script>
+  <script type="module" src="js/alerts.js"></script>
+
+</body>
+</html>

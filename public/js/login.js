@@ -54,7 +54,9 @@ import { auth, db, doc, setDoc, getDoc, addDoc, collection, createUserWithEmailA
             await setDoc(userRef, {
                 email: email,
                 createdAt: serverTimestamp(), // Firestore timestamp instead of new Date()
-                profilePicture: null // Ensuring null if no profile picture
+                profilePicture: null, // Ensuring null if no profile picture
+                queries: 0,  // Initialize the queries count to 0
+                documentsSaved: 0  // Initialize the documents count to 0
             });
     
             console.log("User data saved in Firestore.");
