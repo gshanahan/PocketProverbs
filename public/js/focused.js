@@ -219,5 +219,3 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   });
 });
-
-window.logoutUser = logoutUser;
