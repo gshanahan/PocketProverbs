@@ -157,9 +157,10 @@ async function viewDocument(docId, userId) {
 async function fetchDocuments() {
   try {
     const user = auth.currentUser;  // Get the current logged-in user
+    const userId = user.uid;
 
     // Get documents for the current user from the 'documents' collection
-    const q = query(collection(db, "documents"), where("userId", "==", user.uid));
+    const q = query(collection(db, "documents"), where("userId", "==", userId));
     const querySnapshot = await getDocs(q);
 
     // Group documents by category
