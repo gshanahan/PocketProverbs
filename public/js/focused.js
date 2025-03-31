@@ -2,6 +2,33 @@ import { auth, db, onAuthStateChanged, doc, setDoc, collection} from "./firebase
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 //import { showSuccessAlert, showErrorAlert, showConfirmationDialog } from './alerts.js';
 
+async function trackQuery() {
+  const user = auth.currentUser;  // Get the current logged-in user
+
+  if (!user) {
+    console.log('User is not logged in');
+    return;
+  }
+
+  const userId = user.uid;
+  
+  try {
+    // Get reference to the user's Firestore document
+    const userDocRef = db.collection('users').doc(userId);
+
+    // Atomically update the query count
+    await userDocRef.update({
+      queries: firebase.firestore.FieldValue.increment(1)
+    });
+
+    console.log("Query count updated successfully");
+
+  } catch (error) {
+    console.error("Error updating query count:", error);
+  }
+}
+
+
 //Chat window logic
 async function sendMessage() {
   const chatWindow = document.getElementById("chatWindow");
@@ -46,6 +73,8 @@ async function sendMessage() {
   } catch (error) {
     console.error("Error fetching response:", error);
   }
+
+  trackQuery();
 }
 
 document.addEventListener("DOMContentLoaded", function() {

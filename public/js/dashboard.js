@@ -14,6 +14,33 @@
       });
   }
 
+  async function trackQuery() {
+    const user = auth.currentUser;  // Get the current logged-in user
+  
+    if (!user) {
+      console.log('User is not logged in');
+      return;
+    }
+  
+    const userId = user.uid;
+    
+    try {
+      // Get reference to the user's Firestore document
+      const userDocRef = db.collection('users').doc(userId);
+  
+      // Atomically update the query count
+      await userDocRef.update({
+        queries: firebase.firestore.FieldValue.increment(1)
+      });
+  
+      console.log("Query count updated successfully");
+  
+    } catch (error) {
+      console.error("Error updating query count:", error);
+    }
+  }
+  
+
   // Toggle Mobile Menu
   const menuBtn = document.getElementById("menu-btn");
   const mobileMenu = document.getElementById("mobile-menu");
@@ -66,6 +93,8 @@
     } catch (error) {
       console.error("Error fetching response:", error);
     }
+
+    trackQuery();
   }
   
   // Send message on button click
