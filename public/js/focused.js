@@ -2,6 +2,13 @@ import { auth, db, doc, setDoc, getDoc, collection, updateDoc, increment, onAuth
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 //import { showSuccessAlert, showErrorAlert, showConfirmationDialog } from './alerts.js';
 
+const quill = new Quill('#editor-container', {
+  theme: 'snow',
+  modules: {
+      toolbar: '#toolbar'
+  }
+});
+
 async function trackQuery() {
   const user = auth.currentUser;  // Get the current logged-in user
 
