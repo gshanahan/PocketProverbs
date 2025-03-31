@@ -14,11 +14,11 @@ async function trackQuery() {
   
   try {
     // Get reference to the user's Firestore document
-    const userDocRef = db.collection('users').doc(userId);
+    const userDocRef = doc(db, "users", userId);
 
-    // Atomically update the query count
-    await userDocRef.update({
-      queries: firebase.firestore.FieldValue.increment(1)
+    // Atomically update the query count using the increment function
+    await updateDoc(userDocRef, {
+      queries: increment(1)
     });
 
     console.log("Query count updated successfully");
