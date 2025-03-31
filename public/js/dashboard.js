@@ -1,4 +1,4 @@
-  import { auth, db, onAuthStateChanged, doc, setDoc, getDocs, collection, query, where} from "./firebaseConfig.js";
+  import { auth, db, onAuthStateChanged, doc, setDoc, getDocs, collection, query, where, updateDoc, increment } from "./firebaseConfig.js";
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
   document.getElementById("signOutBtn").addEventListener("click", logoutUser);
@@ -30,7 +30,7 @@
   
       // Atomically update the query count using the increment function
       await updateDoc(userDocRef, {
-        queries: increment(1)
+        queries: increment(1)  // Increment the queries count by 1
       });
   
       console.log("Query count updated successfully");
@@ -39,6 +39,7 @@
       console.error("Error updating query count:", error);
     }
   }
+  
 
   // Toggle Mobile Menu
   const menuBtn = document.getElementById("menu-btn");

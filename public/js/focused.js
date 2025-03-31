@@ -1,5 +1,5 @@
-import { auth, db, onAuthStateChanged, doc, setDoc, collection} from "./firebaseConfig.js";
-import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+import { auth, db, doc, setDoc, collection, updateDoc, increment } from "./firebaseConfig.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 //import { showSuccessAlert, showErrorAlert, showConfirmationDialog } from './alerts.js';
 
 async function trackQuery() {
@@ -18,7 +18,7 @@ async function trackQuery() {
 
     // Atomically update the query count using the increment function
     await updateDoc(userDocRef, {
-      queries: increment(1)
+      queries: increment(1)  // Increment the queries count by 1
     });
 
     console.log("Query count updated successfully");
