@@ -1,4 +1,4 @@
-import { auth, db, doc, setDoc, collection, updateDoc, increment } from "./firebaseConfig.js";
+import { auth, db, doc, setDoc, getDoc, collection, updateDoc, increment } from "./firebaseConfig.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 //import { showSuccessAlert, showErrorAlert, showConfirmationDialog } from './alerts.js';
 
@@ -170,13 +170,13 @@ function getDocumentIdFromUrl() {
 
 async function loadDocument() {
   const docId = getDocumentIdFromUrl();
+  const user = auth.currentUser;
   if (!docId) {
     console.error('No document ID found in URL');
     return;
   }
 
   try {
-    const user = auth.currentUser;
     if (!user) throw new Error('User not authenticated');
 
     // Get the document from Firestore
