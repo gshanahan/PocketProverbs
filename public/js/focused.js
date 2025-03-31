@@ -28,6 +28,32 @@ async function trackQuery() {
   }
 }
 
+async function trackDocument() {
+  const user = auth.currentUser;  // Get the current logged-in user
+
+  if (!user) {
+    console.log('User is not logged in');
+    return;
+  }
+
+  const userId = user.uid;
+  
+  try {
+    // Get reference to the user's Firestore document
+    const userDocRef = doc(db, "users", userId);
+
+    // Atomically update the query count using the increment function
+    await updateDoc(userDocRef, {
+      documentsSaved: increment(1)  // Increment the queries count by 1
+    });
+
+    console.log("Document count updated successfully");
+
+  } catch (error) {
+    console.error("Error updating document count:", error);
+  }
+}
+
 
 //Chat window logic
 async function sendMessage() {
@@ -103,6 +129,8 @@ async function saveDocument(userId, title, category, content) {
           updatedAt: new Date(),
       });
       console.log("Document saved.");
+
+      trackDocument();
   } catch (error) {
       console.error("Error saving document:", error);
       throw error;  // Rethrow to handle it in the calling function
