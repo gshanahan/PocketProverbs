@@ -3,9 +3,9 @@
 
   // Example sign-out function (replace with Firebase auth method)
     document.addEventListener('DOMContentLoaded', () => {
-        const signOutBtn = document.getElementById('signOut');
-        if (signOutBtn) {
-            signOutBtn.addEventListener('click', logoutUser);
+        const signOut = document.getElementById('signOutBtn');
+        if (signOut) {
+            signOut.addEventListener('click', logoutUser());
         }
     });
 
