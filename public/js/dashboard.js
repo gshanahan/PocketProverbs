@@ -154,13 +154,10 @@ async function viewDocument(docId, userId) {
 //  },
 //});
 
-async function fetchDocuments() {
+async function fetchDocuments(user) {
   try {
-    const user = auth.currentUser;  // Get the current logged-in user
-    const userId = user.uid;
-
-    // Get documents for the current user from the 'documents' collection
-    const q = query(collection(db, "documents"), where("userId", "==", userId));
+     // Get documents for the current user from the 'documents' collection
+    const q = query(collection(db, "documents"), where("userId", "==", user.uid));
     const querySnapshot = await getDocs(q);
 
     // Group documents by category
@@ -223,7 +220,16 @@ function populateTable(documentsByCategory) {
 
 // Call the function to fetch documents on page load
 document.addEventListener('DOMContentLoaded', function () {
-  fetchDocuments();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // Call the function to fetch documents once the user is available
+        fetchDocuments(user);
+    } else {
+        console.log('User is not logged in');
+        // Optionally, redirect to the login page
+        window.location.href = '/login.html';
+    }
+});
 });
 
 window.logoutUser = logoutUser;
