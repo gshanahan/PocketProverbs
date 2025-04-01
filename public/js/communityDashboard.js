@@ -58,7 +58,7 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
     }
 
     // Top 5 Consecutive Days
-    const consecutiveList = document.querySelector('.top-consecutive-list');
+    const consecutiveList = document.querySelector('.top-consecutive');
     if (consecutiveList) {
         consecutiveList.innerHTML = ''; // Clear previous list
         topConsecutive.forEach(user => {
@@ -69,7 +69,7 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
     }
 
     // Top 5 Active Days
-    const activeList = document.querySelector('.top-active-days-list');
+    const activeList = document.querySelector('.top-active-days');
     if (activeList) {
         activeList.innerHTML = ''; // Clear previous list
         topActiveDays.forEach(user => {

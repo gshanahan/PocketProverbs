@@ -105,7 +105,7 @@ async function saveUserData(user, email, username) {
             queries: 0,
             documentsSaved: 0,
             consecutiveDays: 0,
-            totalActiveDays: 0,
+            activeDays: 0,
             longestStreak: 0,
             lastActiveDate: currentDate
         });
