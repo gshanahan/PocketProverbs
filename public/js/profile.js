@@ -4,12 +4,12 @@ import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/fire
 // Fetch user data and stats
 function fetchUserProfile() {
     const user = auth.currentUser;
+    const username = user.username;
 
     if (user) {
         // Display user email and join date
         document.getElementById("user-email").textContent = user.email;
         document.getElementById("join-date").textContent = new Date(user.metadata.creationTime).toLocaleDateString();
-        const username = user.username; // Replace with actual username fetching logic
         document.getElementById("userProfileHeading").textContent = `${username}'s Profile`;
 
 
