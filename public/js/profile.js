@@ -9,6 +9,9 @@ function fetchUserProfile() {
         // Display user email and join date
         document.getElementById("user-email").textContent = user.email;
         document.getElementById("join-date").textContent = new Date(user.metadata.creationTime).toLocaleDateString();
+        const username = user.username; // Replace with actual username fetching logic
+        document.getElementById("userProfileHeading").textContent = `${username}'s Profile`;
+
 
         // Fetch user stats from Firestore
         getUserStats(user.uid);
