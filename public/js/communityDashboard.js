@@ -69,7 +69,7 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
     }
 
     // Top 5 Active Days
-    const activeList = document.querySelector('.top-active-days');
+    const activeList = document.getElementById('top-active-days');
     if (activeList) {
         activeList.innerHTML = ''; // Clear previous list
         topActiveDays.forEach(user => {
