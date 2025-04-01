@@ -8,17 +8,17 @@ async function fetchLeaderboardData() {
         // Top 5 Highest Consecutive Days
         const consecutiveQuery = query(usersRef, orderBy('consecutiveDays', 'desc'), limit(5));
         const consecutiveSnapshot = await getDocs(consecutiveQuery);
-        const consecutiveData = consecutiveSnapshot.docs.map(doc => doc.data());
+        const consecutiveData = consecutiveSnapshot.empty ? [] : consecutiveSnapshot.docs.map(doc => doc.data());
 
         // Top 5 Most Active Days
         const activeQuery = query(usersRef, orderBy('totalActiveDays', 'desc'), limit(5));
         const activeSnapshot = await getDocs(activeQuery);
-        const activeData = activeSnapshot.docs.map(doc => doc.data());
+        const activeData = activeSnapshot.empty ? [] : activeSnapshot.docs.map(doc => doc.data());
 
         // Current Longest Active Streak
         const streakQuery = query(usersRef, orderBy('consecutiveDays', 'desc'), limit(1));
         const streakSnapshot = await getDocs(streakQuery);
-        const longestStreakData = streakSnapshot.docs[0]?.data() || null;
+        const longestStreakData = streakSnapshot.empty ? null : streakSnapshot.docs[0].data();
 
         // Total Users
         const totalSnapshot = await getDocs(usersRef);
@@ -30,6 +30,7 @@ async function fetchLeaderboardData() {
         console.error('Error fetching leaderboard data:', error);
     }
 }
+
 
 // Function to update the DOM with fetched data
 function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUsers) {
