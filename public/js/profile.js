@@ -2,26 +2,37 @@ import { auth, db, onAuthStateChanged, doc, setDoc, getDocs, collection, query, 
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
 // Fetch user data and stats
-function fetchUserProfile() {
+async function fetchUserProfile() {
     const user = auth.currentUser;
-    const username = user.username;
 
     if (user) {
-        // Display user email and join date
-        document.getElementById("user-email").textContent = user.email;
-        document.getElementById("join-date").textContent = new Date(user.metadata.creationTime).toLocaleDateString();
-        document.getElementById("userProfileHeading").textContent = `${username}'s Profile`;
+        try {
+            // Get the username from Firestore
+            const userRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userRef);
 
+            if (userDoc.exists()) {
+                const username = userDoc.data().username;
 
-        // Fetch user stats from Firestore
-        getUserStats(user.uid);
+                // Display user email, join date, and username
+                document.getElementById("user-email").textContent = user.email;
+                document.getElementById("join-date").textContent = new Date(user.metadata.creationTime).toLocaleDateString();
+                document.getElementById("userProfileHeading").textContent = `${username}'s Profile`;
 
-        // Fetch and display profile picture URL from Firebase Storage
-        getProfilePicture(user.uid);
+                // Fetch user stats and profile picture
+                getUserStats(user.uid);
+                getProfilePicture(user.uid);
+            } else {
+                console.log("No user data found.");
+            }
+        } catch (error) {
+            console.error("Error fetching user profile:", error.message);
+        }
     } else {
-        console.log('User is not logged in');
+        console.log("User is not logged in.");
     }
 }
+
 
 // Fetch user stats (queries made and documents saved)
 async function getUserStats(userId) {
