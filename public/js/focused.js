@@ -9,6 +9,23 @@ const quill = new Quill('#editor-container', {
   }
 });
 
+    // Typing effect function for chatbot responses
+    function typeOutBotMessage(element, text, speed = 25) {
+      let index = 0;
+      element.textContent = ""; // Clear existing text
+  
+      function typeChar() {
+          if (index < text.length) {
+              element.textContent += text[index];
+              index++;
+              chatWindow.scrollTop = chatWindow.scrollHeight; // Keep chat scrolled to the bottom
+              setTimeout(typeChar, speed);
+          }
+      }
+  
+    typeChar();
+  }
+
 async function trackQuery() {
   const user = auth.currentUser;  // Get the current logged-in user
 
@@ -98,16 +115,18 @@ async function sendMessage() {
     const data = await response.json();
     const botMessage = data.choices[0].message.content;
 
-    // Display bot response
-    const botDiv = document.createElement("div");
-    botDiv.textContent = "BibleBuddy: " + botMessage;
-    botDiv.classList.add("text-sm", "mb-2", "text-green-600");
-    botDiv.style.color = "#87CEEB";
-    chatWindow.appendChild(botDiv);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-  } catch (error) {
-    console.error("Error fetching response:", error);
-  }
+     // Display bot response
+     const botDiv = document.createElement("div");
+     botDiv.classList.add("text-sm", "mb-2", "text-green-600");
+     botDiv.style.color = "#87CEEB";
+     chatWindow.appendChild(botDiv);
+     chatWindow.scrollTop = chatWindow.scrollHeight;
+
+     // Use the typing effect for the bot message
+     typeOutBotMessage(botDiv, "BibleBuddy: " + botMessage, 10); // Adjust speed as needed
+   } catch (error) {
+     console.error("Error fetching response:", error);
+   }
 
   trackQuery();
 }

@@ -110,7 +110,7 @@
       chatWindow.scrollTop = chatWindow.scrollHeight;
 
       // Use the typing effect for the bot message
-      typeOutBotMessage(botDiv, "BibleBuddy: " + botMessage, 25); // Adjust speed as needed
+      typeOutBotMessage(botDiv, "BibleBuddy: " + botMessage, 10); // Adjust speed as needed
     } catch (error) {
       console.error("Error fetching response:", error);
     }
