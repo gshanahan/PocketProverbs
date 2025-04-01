@@ -104,7 +104,10 @@ async function saveUserData(user, email, username) {
             createdAt: serverTimestamp(),
             profilePicture: null,
             queries: 0,
-            documentsSaved: 0
+            documentsSaved: 0,
+            consecutiveDays: 0,
+            totalActiveDays: 0,
+            longestStreak: 0
         });
         console.log("User data saved in Firestore.");
     } else {
