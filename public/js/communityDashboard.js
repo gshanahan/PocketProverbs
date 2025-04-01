@@ -1,84 +1,67 @@
-import { db } from "./firebaseConfig.js";
+import { db } from './firebaseConfig.js';
 
-const CommunityDashboard = () => {
-    const [topConsecutive, setTopConsecutive] = useState([]);
-    const [topActiveDays, setTopActiveDays] = useState([]);
-    const [longestStreak, setLongestStreak] = useState(null);
-    const [totalUsers, setTotalUsers] = useState(0);
+// Function to fetch leaderboard data from Firebase
+async function fetchLeaderboardData() {
+    try {
+        const usersRef = db.collection('users');
 
-    // Fetch the leaderboard data from Firebase on component mount
-    useEffect(() => {
-        async function fetchLeaderboardData() {
-            try {
-                const usersRef = db.collection('users');
+        // Top 5 Highest Consecutive Days
+        const consecutiveQuery = usersRef.orderBy('consecutiveDays', 'desc').limit(5);
+        const consecutiveSnapshot = await consecutiveQuery.get();
+        const consecutiveData = consecutiveSnapshot.docs.map(doc => doc.data());
 
-                // Top 5 Highest Consecutive Days
-                const consecutiveQuery = usersRef.orderBy('consecutiveDays', 'desc').limit(5);
-                const consecutiveSnapshot = await consecutiveQuery.get();
-                const consecutiveData = consecutiveSnapshot.docs.map(doc => doc.data());
+        // Top 5 Most Active Days
+        const activeQuery = usersRef.orderBy('totalActiveDays', 'desc').limit(5);
+        const activeSnapshot = await activeQuery.get();
+        const activeData = activeSnapshot.docs.map(doc => doc.data());
 
-                // Top 5 Most Active Days
-                const activeQuery = usersRef.orderBy('totalActiveDays', 'desc').limit(5);
-                const activeSnapshot = await activeQuery.get();
-                const activeData = activeSnapshot.docs.map(doc => doc.data());
+        // Current Longest Active Streak
+        const streakQuery = usersRef.orderBy('consecutiveDays', 'desc').limit(1);
+        const streakSnapshot = await streakQuery.get();
+        const longestStreakData = streakSnapshot.docs[0]?.data() || null;
 
-                // Current Longest Active Streak
-                const streakQuery = usersRef.orderBy('consecutiveDays', 'desc').limit(1);
-                const streakSnapshot = await streakQuery.get();
-                const longestStreakData = streakSnapshot.docs[0]?.data() || null;
+        // Total Users
+        const totalSnapshot = await usersRef.get();
+        const totalUserCount = totalSnapshot.size;
 
-                // Total Users
-                const totalSnapshot = await usersRef.get();
-                const totalUserCount = totalSnapshot.size;
+        // Update the DOM with the fetched data
+        updateDashboard(consecutiveData, activeData, longestStreakData, totalUserCount);
+    } catch (error) {
+        console.error('Error fetching leaderboard data:', error);
+    }
+}
 
-                // Update state with fetched data
-                setTopConsecutive(consecutiveData);
-                setTopActiveDays(activeData);
-                setLongestStreak(longestStreakData);
-                setTotalUsers(totalUserCount);
-            } catch (error) {
-                console.error('Error fetching leaderboard data:', error);
-            }
-        }
+// Function to update the DOM with fetched data
+function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUsers) {
+    document.querySelector('.community-dashboard-title').textContent = 'Community Dashboard';
+    
+    // Total Users
+    document.querySelector('.total-users').textContent = `Total Users: ${totalUsers}`;
 
-        fetchLeaderboardData();
-    }, []);
+    // Longest Streak
+    const streakElement = document.querySelector('.longest-streak');
+    if (longestStreak) {
+        streakElement.textContent = `Current Longest Active Streak: ${longestStreak.username} - ${longestStreak.consecutiveDays} days`;
+    }
 
-    return (
-        <div className="community-dashboard-container">
-            <h1 className="community-dashboard-title">Community Dashboard</h1>
+    // Top 5 Consecutive Days
+    const consecutiveList = document.querySelector('.top-consecutive-list');
+    consecutiveList.innerHTML = '';
+    topConsecutive.forEach(user => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${user.username}: ${user.consecutiveDays} days`;
+        consecutiveList.appendChild(listItem);
+    });
 
-            <div className="community-card">
-                <h2>Total Users: {totalUsers}</h2>
-                {longestStreak && (
-                    <p>Current Longest Active Streak: {longestStreak.username} - {longestStreak.consecutiveDays} days</p>
-                )}
-            </div>
+    // Top 5 Active Days
+    const activeList = document.querySelector('.top-active-days-list');
+    activeList.innerHTML = '';
+    topActiveDays.forEach(user => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${user.username}: ${user.totalActiveDays} days`;
+        activeList.appendChild(listItem);
+    });
+}
 
-            <div className="community-grid">
-                <div className="community-card">
-                    <h3>Top 5 Consecutive Days</h3>
-                    <ul>
-                        {topConsecutive.map((user, index) => (
-                            <li key={index}>
-                                {user.username}: {user.consecutiveDays} days
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <div className="community-card">
-                    <h3>Top 5 Active Days</h3>
-                    <ul>
-                        {topActiveDays.map((user, index) => (
-                            <li key={index}>
-                                {user.username}: {user.totalActiveDays} days
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default CommunityDashboard;
+// Fetch leaderboard data when the page loads
+document.addEventListener('DOMContentLoaded', fetchLeaderboardData);
