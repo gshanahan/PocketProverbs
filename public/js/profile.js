@@ -85,11 +85,14 @@ async function uploadProfilePicture() {
     }
 }
 
-// Initialize when the user is authenticated
-auth.onAuthStateChanged(user => {
+document.addEventListener('DOMContentLoaded', function () {
+  onAuthStateChanged(auth, (user) => {
     if (user) {
         fetchUserProfile();
     } else {
-        console.log('No user is logged in');
+        console.log('User is not logged in');
+        // Optionally, redirect to the login page
+        window.location.href = '/login.html';
     }
+});
 });
