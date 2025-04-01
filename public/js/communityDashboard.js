@@ -1,27 +1,29 @@
-import { db } from './firebaseConfig.js';
+// communityDashboard.js
+
+import { db, collection, getDocs, query, orderBy, limit } from './firebaseConfig.js';
 
 // Function to fetch leaderboard data from Firebase
 async function fetchLeaderboardData() {
     try {
-        const usersRef = db.collection('users');
+        const usersRef = collection(db, 'users');
 
         // Top 5 Highest Consecutive Days
-        const consecutiveQuery = usersRef.orderBy('consecutiveDays', 'desc').limit(5);
-        const consecutiveSnapshot = await consecutiveQuery.get();
+        const consecutiveQuery = query(usersRef, orderBy('consecutiveDays', 'desc'), limit(5));
+        const consecutiveSnapshot = await getDocs(consecutiveQuery);
         const consecutiveData = consecutiveSnapshot.docs.map(doc => doc.data());
 
         // Top 5 Most Active Days
-        const activeQuery = usersRef.orderBy('totalActiveDays', 'desc').limit(5);
-        const activeSnapshot = await activeQuery.get();
+        const activeQuery = query(usersRef, orderBy('totalActiveDays', 'desc'), limit(5));
+        const activeSnapshot = await getDocs(activeQuery);
         const activeData = activeSnapshot.docs.map(doc => doc.data());
 
         // Current Longest Active Streak
-        const streakQuery = usersRef.orderBy('consecutiveDays', 'desc').limit(1);
-        const streakSnapshot = await streakQuery.get();
+        const streakQuery = query(usersRef, orderBy('consecutiveDays', 'desc'), limit(1));
+        const streakSnapshot = await getDocs(streakQuery);
         const longestStreakData = streakSnapshot.docs[0]?.data() || null;
 
         // Total Users
-        const totalSnapshot = await usersRef.get();
+        const totalSnapshot = await getDocs(usersRef);
         const totalUserCount = totalSnapshot.size;
 
         // Update the DOM with the fetched data
