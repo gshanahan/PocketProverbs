@@ -1,4 +1,4 @@
-import { db } from './firebaseConfig'; // Ensure you have your firebase config file set up correctly.
+import { db } from "./firebaseConfig.js";
 
 const CommunityDashboard = () => {
     const [topConsecutive, setTopConsecutive] = useState([]);
