@@ -34,6 +34,11 @@ async function fetchLeaderboardData() {
 function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUsers) {
     // Update Title
     document.querySelector('.community-dashboard-title').textContent = 'Community Dashboard';
+    console.log("topConsecutive: ", topConsecutive);
+    console.log("topActiveDays: ", topActiveDays);
+    console.log("longestStreak: ", longestStreak);
+    console.log("totalUsers: ", totalUsers);
+
     
     // Total Users
     const totalUsersElement = document.querySelector('.total-users');
