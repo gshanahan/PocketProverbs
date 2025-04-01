@@ -74,7 +74,7 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
         activeList.innerHTML = ''; // Clear previous list
         topActiveDays.forEach(user => {
             const listItem = document.createElement('li');
-            listItem.textContent = `${user.username}: ${user.activeDays} days`;
+            listItem.innerHTML = `<strong>${user.username}</strong>: <span style="color: #87CEEB">${user.activeDays} days</span>`;
             activeList.appendChild(listItem);
         });
     }
