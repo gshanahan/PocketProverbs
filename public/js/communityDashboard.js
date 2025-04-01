@@ -63,7 +63,7 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
         consecutiveList.innerHTML = ''; // Clear previous list
         topConsecutive.forEach(user => {
             const listItem = document.createElement('li');
-            listItem.textContent = `${user.username}: ${user.consecutiveDays} days`;
+            listItem.textContent = `<strong>${user.username}</strong>: <span style="color: #87CEEB">${user.consecutiveDays} days</span>`;
             consecutiveList.appendChild(listItem);
         });
     }
