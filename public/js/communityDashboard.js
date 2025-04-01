@@ -10,12 +10,12 @@ async function fetchLeaderboardData() {
         const consecutiveData = consecutiveSnapshot.empty ? [] : consecutiveSnapshot.docs.map(doc => doc.data());
 
         // Top 5 Most Active Days
-        const activeQuery = query(usersRef, orderBy('totalActiveDays', 'desc'), limit(5));
+        const activeQuery = query(usersRef, orderBy('activeDays', 'desc'), limit(5));
         const activeSnapshot = await getDocs(activeQuery);
         const activeData = activeSnapshot.empty ? [] : activeSnapshot.docs.map(doc => doc.data());
 
         // Current Longest Active Streak
-        const streakQuery = query(usersRef, orderBy('consecutiveDays', 'desc'), limit(1));
+        const streakQuery = query(usersRef, orderBy('longestStreak', 'desc'), limit(1));
         const streakSnapshot = await getDocs(streakQuery);
         const longestStreakData = streakSnapshot.empty ? null : streakSnapshot.docs[0].data();
 
@@ -34,10 +34,6 @@ async function fetchLeaderboardData() {
 function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUsers) {
     // Update Title
     document.querySelector('.community-dashboard-title').textContent = 'Community Dashboard';
-    console.log('Top Consecutive:', consecutiveData);
-    console.log('Top Active Days:', activeData);
-    console.log('Longest Streak:', longestStreakData);
-    console.log('Total Users:', totalUserCount);
     
     // Total Users
     const totalUsersElement = document.querySelector('.total-users');
@@ -72,7 +68,7 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
         activeList.innerHTML = ''; // Clear previous list
         topActiveDays.forEach(user => {
             const listItem = document.createElement('li');
-            listItem.textContent = `${user.username}: ${user.totalActiveDays} days`;
+            listItem.textContent = `${user.username}: ${user.activeDays} days`;
             activeList.appendChild(listItem);
         });
     }
