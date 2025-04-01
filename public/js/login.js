@@ -26,6 +26,7 @@ async function loginUser() {
                 const userEmail = userDoc.data().email;
                 await signInWithEmailAndPassword(auth, userEmail, password);
                 console.log("Logged in with username:", username);
+                updateUserActivity();
             } else {
                 alert("Username does not exist.");
             }
@@ -81,6 +82,7 @@ async function registerUser() {
       // Step 3: Save user data in Firestore after validation
       await saveUserData(userCredential.user, email, username);
 
+      updateUserActivity();
       window.location.href = "/index.html";
   } catch (error) {
       console.error("Error registering user: ", error.message);
@@ -108,6 +110,74 @@ async function saveUserData(user, email, username) {
     } else {
         console.log("User data already exists. No need to overwrite.");
     }
+}
+
+async function updateUserActivity() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userRef);
+
+      const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
+
+      if (userDoc.exists()) {
+          const data = userDoc.data();
+          const lastActiveDate = data.lastActiveDate || "";
+          const activeDays = data.activeDays || 0;
+          const consecutiveDays = data.consecutiveDays || 0;
+          const longestStreak = data.longestStreak || 0;
+
+          // Calculate the difference in days
+          const lastDate = new Date(lastActiveDate);
+          const currentDate = new Date(today);
+          const diffDays = Math.floor((currentDate - lastDate) / (1000 * 60 * 60 * 24));
+
+          let updatedActiveDays = activeDays;
+          let updatedConsecutiveDays = consecutiveDays;
+          let updatedLongestStreak = longestStreak;
+
+          if (diffDays === 0) {
+              console.log("User already active today");
+              return;
+          } else if (diffDays === 1) {
+              // Next consecutive day
+              updatedActiveDays++;
+              updatedConsecutiveDays++;
+              if (updatedConsecutiveDays > updatedLongestStreak) {
+                  updatedLongestStreak = updatedConsecutiveDays;
+              }
+          } else {
+              // Non-consecutive day or new streak
+              updatedActiveDays++;
+              updatedConsecutiveDays = 1;
+          }
+
+          // Update Firestore
+          await updateDoc(userRef, {
+              lastActiveDate: today,
+              activeDays: updatedActiveDays,
+              consecutiveDays: updatedConsecutiveDays,
+              longestStreak: updatedLongestStreak,
+              lastLogin: serverTimestamp(),
+          });
+
+          console.log("User activity updated");
+      } else {
+          // New user or no previous activity recorded
+          await setDoc(userRef, {
+              lastActiveDate: today,
+              activeDays: 1,
+              consecutiveDays: 1,
+              longestStreak: 1,
+              lastLogin: serverTimestamp(),
+          });
+          console.log("New user activity initialized");
+      }
+  } catch (error) {
+      console.error("Error updating user activity:", error.message);
+  }
 }
 
 onAuthStateChanged(auth, (user) => {
