@@ -1,6 +1,5 @@
 import { db, auth, collection, getDocs, query, orderBy, limit, onAuthStateChanged } from './firebaseConfig.js';
 
-// Function to fetch leaderboard data from Firebase
 async function fetchLeaderboardData() {
     try {
         const usersRef = collection(db, 'users');
@@ -30,7 +29,6 @@ async function fetchLeaderboardData() {
         console.error('Error fetching leaderboard data:', error);
     }
 }
-
 
 // Function to update the DOM with fetched data
 function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUsers) {
