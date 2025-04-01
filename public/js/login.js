@@ -41,45 +41,55 @@ async function loginUser() {
 }
 
 async function registerUser() {
-    const email = document.getElementById("email").value;
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+  const email = document.getElementById("email").value;
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-    if (!email || !username || !password) {
-        alert("Please fill in all fields.");
-        return;
-    }
+  if (!email || !username || !password) {
+      alert("Please fill in all fields.");
+      return;
+  }
 
-    showLoading();
+  showLoading();
 
-    try {
-        const usersRef = collection(db, "users");
-        const emailQuery = query(usersRef, where("email", "==", email));
-        const emailSnapshot = await getDocs(emailQuery);
-        if (!emailSnapshot.empty) {
-            alert("Email is already in use. Please choose a different email.");
-            return;
-        }
+  try {
+      // Step 1: Create the user first
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("Account created:", userCredential.user);
 
-        const usernameQuery = query(usersRef, where("username", "==", username));
-        const usernameSnapshot = await getDocs(usernameQuery);
-        if (!usernameSnapshot.empty) {
-            alert("Username is already taken. Please choose a different username.");
-            return;
-        }
+      // Step 2: Check if the email or username is already in use
+      const usersRef = collection(db, "users");
 
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        console.log("Account created:", userCredential.user);
-        await saveUserData(userCredential.user, email, username);
+      // Email uniqueness check
+      const emailQuery = query(usersRef, where("email", "==", email));
+      const emailSnapshot = await getDocs(emailQuery);
+      if (!emailSnapshot.empty) {
+          alert("Email is already in use. Please choose a different email.");
+          await userCredential.user.delete(); // Clean up the user if registration fails
+          return;
+      }
 
-        window.location.href = "/index.html";
-    } catch (error) {
-        console.error("Error registering user: ", error.message);
-        alert(error.message);
-    } finally {
-        hideLoading();
-    }
+      // Username uniqueness check
+      const usernameQuery = query(usersRef, where("username", "==", username));
+      const usernameSnapshot = await getDocs(usernameQuery);
+      if (!usernameSnapshot.empty) {
+          alert("Username is already taken. Please choose a different username.");
+          await userCredential.user.delete(); // Clean up the user if registration fails
+          return;
+      }
+
+      // Step 3: Save user data in Firestore after validation
+      await saveUserData(userCredential.user, email, username);
+
+      window.location.href = "/index.html";
+  } catch (error) {
+      console.error("Error registering user: ", error.message);
+      alert(error.message);
+  } finally {
+      hideLoading();
+  }
 }
+
 
 async function saveUserData(user, email, username) {
     const userRef = doc(db, "users", user.uid);
