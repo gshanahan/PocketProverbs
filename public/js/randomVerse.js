@@ -4,6 +4,22 @@ async function fetchDailyVerse() {
     const storedDate = localStorage.getItem("verseDate");
     const today = new Date().toISOString().split("T")[0]; // Get YYYY-MM-DD format
 
+    // Typing effect function
+    function typeOutText(element, text, speed = 50) {
+        let index = 0;
+        element.innerText = ""; // Clear existing text
+
+        function typeChar() {
+            if (index < text.length) {
+                element.innerText += text[index];
+                index++;
+                setTimeout(typeChar, speed);
+            }
+        }
+
+        typeChar();
+    }
+
     // Check if stored data exists and if the stored date matches today's date
     if (storedVerse && storedAnalysis && storedDate === today) {
         // Use stored verse and analysis if available
@@ -33,8 +49,9 @@ async function fetchDailyVerse() {
                 localStorage.setItem("verseAnalysis", analysis);
                 localStorage.setItem("verseDate", today);
 
-                // Display analysis
-                document.getElementById('verseAnalysis').innerText = analysis;
+                // Display analysis with typing effect
+                const analysisElement = document.getElementById('verseAnalysis');
+                typeOutText(analysisElement, analysis, 50); // Adjust speed as needed
             } else {
                 document.getElementById("dailyVerse").innerText = "Could not fetch verse.";
             }
