@@ -7,6 +7,7 @@ async function fetchLeaderboardData() {
     try {
         const usersRef = collection(db, 'users');
 
+
         // Top 5 Highest Consecutive Days
         const consecutiveQuery = query(usersRef, orderBy('consecutiveDays', 'desc'), limit(5));
         const consecutiveSnapshot = await getDocs(consecutiveQuery);
@@ -67,3 +68,16 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
 
 // Fetch leaderboard data when the page loads
 document.addEventListener('DOMContentLoaded', fetchLeaderboardData);
+
+// Call loadDocument on page load
+document.addEventListener('DOMContentLoaded', () => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            fetchLeaderboardData();
+        } else {
+            console.error("User not authenticated");
+            // Redirect to login page or show a message
+            window.location.href = "/login.html";
+        }
+    });
+  });
