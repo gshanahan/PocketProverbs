@@ -1,6 +1,6 @@
 // communityDashboard.js
 
-import { db, collection, getDocs, query, orderBy, limit, onAuthStateChanged } from './firebaseConfig.js';
+import { db, auth, collection, getDocs, query, orderBy, limit, onAuthStateChanged } from './firebaseConfig.js';
 
 // Function to fetch leaderboard data from Firebase
 async function fetchLeaderboardData() {
