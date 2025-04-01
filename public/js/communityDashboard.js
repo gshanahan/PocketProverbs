@@ -1,12 +1,9 @@
-// communityDashboard.js
-
 import { db, auth, collection, getDocs, query, orderBy, limit, onAuthStateChanged } from './firebaseConfig.js';
 
 // Function to fetch leaderboard data from Firebase
 async function fetchLeaderboardData() {
     try {
         const usersRef = collection(db, 'users');
-
 
         // Top 5 Highest Consecutive Days
         const consecutiveQuery = query(usersRef, orderBy('consecutiveDays', 'desc'), limit(5));
@@ -36,48 +33,57 @@ async function fetchLeaderboardData() {
 
 // Function to update the DOM with fetched data
 function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUsers) {
+    // Update Title
     document.querySelector('.community-dashboard-title').textContent = 'Community Dashboard';
     
     // Total Users
-    document.querySelector('.total-users').textContent = `Total Users: ${totalUsers}`;
+    const totalUsersElement = document.querySelector('.total-users');
+    if (totalUsersElement) {
+        totalUsersElement.textContent = `Total Users: ${totalUsers}`;
+    }
 
     // Longest Streak
     const streakElement = document.querySelector('.longest-streak');
-    if (longestStreak) {
-        streakElement.textContent = `Current Longest Active Streak: ${longestStreak.username} - ${longestStreak.consecutiveDays} days`;
+    if (streakElement) {
+        if (longestStreak) {
+            streakElement.textContent = `Current Longest Active Streak: ${longestStreak.username} - ${longestStreak.consecutiveDays} days`;
+        } else {
+            streakElement.textContent = 'No streak data available.';
+        }
     }
 
     // Top 5 Consecutive Days
     const consecutiveList = document.querySelector('.top-consecutive-list');
-    consecutiveList.innerHTML = '';
-    topConsecutive.forEach(user => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${user.username}: ${user.consecutiveDays} days`;
-        consecutiveList.appendChild(listItem);
-    });
+    if (consecutiveList) {
+        consecutiveList.innerHTML = ''; // Clear previous list
+        topConsecutive.forEach(user => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${user.username}: ${user.consecutiveDays} days`;
+            consecutiveList.appendChild(listItem);
+        });
+    }
 
     // Top 5 Active Days
     const activeList = document.querySelector('.top-active-days-list');
-    activeList.innerHTML = '';
-    topActiveDays.forEach(user => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${user.username}: ${user.totalActiveDays} days`;
-        activeList.appendChild(listItem);
-    });
+    if (activeList) {
+        activeList.innerHTML = ''; // Clear previous list
+        topActiveDays.forEach(user => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${user.username}: ${user.totalActiveDays} days`;
+            activeList.appendChild(listItem);
+        });
+    }
 }
 
 // Fetch leaderboard data when the page loads
-document.addEventListener('DOMContentLoaded', fetchLeaderboardData);
-
-// Call loadDocument on page load
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            fetchLeaderboardData();
+            fetchLeaderboardData(); // Fetch leaderboard data only if the user is authenticated
         } else {
             console.error("User not authenticated");
             // Redirect to login page or show a message
             window.location.href = "/login.html";
         }
     });
-  });
+});
