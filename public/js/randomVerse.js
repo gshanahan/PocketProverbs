@@ -9,6 +9,10 @@ async function fetchDailyVerse() {
         let index = 0;
         element.innerText = ""; // Clear existing text
 
+        // Fix for long words and line breaks
+        element.style.whiteSpace = "pre-wrap";
+        element.style.wordBreak = "break-word";
+
         function typeChar() {
             if (index < text.length) {
                 element.innerText += text[index];
