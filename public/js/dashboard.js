@@ -106,7 +106,6 @@
       const botMessage = data.choices[0].message.content;
   
     // Display bot response
-    try {
       const botDiv = document.createElement("div");
       botDiv.classList.add("text-sm", "mb-2", "text-green-600");
       botDiv.style.color = "#87CEEB";
