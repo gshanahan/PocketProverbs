@@ -26,7 +26,6 @@ async function loginUser() {
                 const userEmail = userDoc.data().email;
                 await signInWithEmailAndPassword(auth, userEmail, password);
                 console.log("Logged in with username:", username);
-                updateUserActivity();
             } else {
                 alert("Username does not exist.");
             }
@@ -82,7 +81,6 @@ async function registerUser() {
       // Step 3: Save user data in Firestore after validation
       await saveUserData(userCredential.user, email, username);
 
-      updateUserActivity();
       window.location.href = "/index.html";
   } catch (error) {
       console.error("Error registering user: ", error.message);
@@ -96,6 +94,7 @@ async function registerUser() {
 async function saveUserData(user, email, username) {
     const userRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(userRef);
+    let currentDate = new Date();
 
     if (!userDoc.exists()) {
         await setDoc(userRef, {
@@ -107,7 +106,8 @@ async function saveUserData(user, email, username) {
             documentsSaved: 0,
             consecutiveDays: 0,
             totalActiveDays: 0,
-            longestStreak: 0
+            longestStreak: 0,
+            lastActiveDate: currentDate
         });
         console.log("User data saved in Firestore.");
     } else {
@@ -186,6 +186,7 @@ async function updateUserActivity() {
 onAuthStateChanged(auth, (user) => {
     if (user) {
         console.log("User signed in: ", user.uid);
+        updateUserActivity();
     } else {
         console.log("No user signed in.");
     }

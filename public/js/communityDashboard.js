@@ -41,10 +41,11 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
 
     
     // Total Users
-    const totalUsersElement = document.querySelector('.total-users');
+    const totalUsersElement = document.querySelector('#total-users-count');
     if (totalUsersElement) {
-        totalUsersElement.textContent = `Total Users: ${totalUsers}`;
+        totalUsersElement.textContent = totalUsers;
     }
+
 
     // Longest Streak
     const streakElement = document.querySelector('.longest-streak');
