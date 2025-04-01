@@ -1,4 +1,4 @@
-import { auth, db, doc, setDoc, getDoc, collection, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, serverTimestamp, query, where, getDocs } from "./firebaseConfig.js";
+import { auth, db, doc, setDoc, getDoc, updateDoc, collection, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, serverTimestamp, query, where, getDocs } from "./firebaseConfig.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("loginButton").addEventListener("click", loginUser);
@@ -203,8 +203,6 @@ function hideLoading() {
 
 
 ///TEMP CODE FOR DATABASE
-import { db, collection, getDocs, updateDoc, doc } from './firebaseConfig.js';
-
 async function updateUserDocuments() {
     try {
         const usersRef = collection(db, 'users');
