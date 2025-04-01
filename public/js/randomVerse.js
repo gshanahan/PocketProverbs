@@ -55,7 +55,7 @@ async function fetchDailyVerse() {
 
                 // Display analysis with typing effect
                 const analysisElement = document.getElementById('verseAnalysis');
-                typeOutText(analysisElement, analysis, 50); // Adjust speed as needed
+                typeOutText(analysisElement, analysis, 100); // Adjust speed as needed
             } else {
                 document.getElementById("dailyVerse").innerText = "Could not fetch verse.";
             }
