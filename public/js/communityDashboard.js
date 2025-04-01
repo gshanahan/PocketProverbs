@@ -58,7 +58,7 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
     }
 
     // Top 5 Consecutive Days
-    const consecutiveList = document.querySelector('.top-consecutive');
+    const consecutiveList = document.getElementById('top-consecutive');
     if (consecutiveList) {
         consecutiveList.innerHTML = ''; // Clear previous list
         topConsecutive.forEach(user => {
