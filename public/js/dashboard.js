@@ -14,25 +14,22 @@
       });
   }
 
-      // Typing effect function
-      function typeOutText(element, text, speed = 50) {
-        let index = 0;
-        element.innerText = ""; // Clear existing text
+      // Typing effect function for chatbot responses
+  function typeOutBotMessage(element, text, speed = 25) {
+    let index = 0;
+    element.textContent = ""; // Clear existing text
 
-        // Fix for long words and line breaks
-        element.style.whiteSpace = "pre-wrap";
-        element.style.wordBreak = "break-word";
-
-        function typeChar() {
-            if (index < text.length) {
-                element.innerText += text[index];
-                index++;
-                setTimeout(typeChar, speed);
-            }
+    function typeChar() {
+        if (index < text.length) {
+            element.textContent += text[index];
+            index++;
+            chatWindow.scrollTop = chatWindow.scrollHeight; // Keep chat scrolled to the bottom
+            setTimeout(typeChar, speed);
         }
-
-        typeChar();
     }
+
+  typeChar();
+}
 
   async function trackQuery() {
     const user = auth.currentUser;  // Get the current logged-in user
@@ -106,6 +103,7 @@
       const botMessage = data.choices[0].message.content;
   
     // Display bot response
+    try {
       const botDiv = document.createElement("div");
       botDiv.classList.add("text-sm", "mb-2", "text-green-600");
       botDiv.style.color = "#87CEEB";
@@ -113,7 +111,7 @@
       chatWindow.scrollTop = chatWindow.scrollHeight;
 
       // Use the typing effect for the bot message
-      typeOutBotMessage(botDiv, "BibleBuddy: " + botMessage, 15); // Adjust speed as needed
+      typeOutBotMessage(botDiv, "BibleBuddy: " + botMessage, 25); // Adjust speed as needed
     } catch (error) {
       console.error("Error fetching response:", error);
     }
