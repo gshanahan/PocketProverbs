@@ -59,7 +59,8 @@
     // Display user message
     const userDiv = document.createElement("div");
     userDiv.textContent = "You: " + userMessage;
-    userDiv.classList.add("text-sm", "mb-2", "text-blue-600");
+    userDiv.classList.add("text-sm", "mb-2");
+    userDiv.style.color = "#D3D3D3";
     chatWindow.appendChild(userDiv);
     chatInput.value = "";
   
@@ -88,6 +89,7 @@
       const botDiv = document.createElement("div");
       botDiv.textContent = "BibleBuddy: " + botMessage;
       botDiv.classList.add("text-sm", "mb-2", "text-green-600");
+      botDiv.style.color = "#87CEEB";
       chatWindow.appendChild(botDiv);
       chatWindow.scrollTop = chatWindow.scrollHeight;
     } catch (error) {
