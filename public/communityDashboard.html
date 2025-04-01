@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community Dashboard</title>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
     <!-- Include your global CSS file -->
     <link rel="stylesheet" href="./css/global.css">
 </head>
 <body class="community-dashboard-body">
+    <!-- Navigation Bar -->
+    <div class="flex items-center p-4 bg-[#18122B] text-white">
+        <a href="/" class="text-sm ml-4">PocketProverbs</a>
+    </div>
 
     <div class="community-dashboard-container">
         <h1 class="community-dashboard-title">Community Dashboard</h1>
@@ -31,5 +33,7 @@
         </div>
     </div>
 
+    <script type="module" src="./js/firebaseConfig.js"></script>
+    <script type="module" src="./js/communityDashboard.js"></script>
 </body>
 </html>
