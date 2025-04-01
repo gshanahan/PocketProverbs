@@ -200,3 +200,47 @@ function hideLoading() {
     const overlay = document.getElementById("loadingOverlay");
     overlay.classList.add("hidden");
 }
+
+
+///TEMP CODE FOR DATABASE
+import { db, collection, getDocs, updateDoc, doc } from './firebaseConfig.js';
+
+async function updateUserDocuments() {
+    try {
+        const usersRef = collection(db, 'users');
+        const userSnapshots = await getDocs(usersRef);
+
+        userSnapshots.forEach(async (userDoc) => {
+            const userData = userDoc.data();
+
+            // Check for missing fields and set defaults
+            const updatedData = {
+                username: userData.username || 'Anonymous',
+                activeDays: userData.activeDays ?? 0,
+                consecutiveDays: userData.consecutiveDays ?? 0,
+                longestStreak: userData.longestStreak ?? 0,
+                lastActiveDate: userData.lastActiveDate || new Date(0), // Epoch as default
+            };
+
+            // Update only if any field was missing
+            if (
+                userData.activeDays === undefined ||
+                userData.consecutiveDays === undefined ||
+                userData.longestStreak === undefined ||
+                userData.lastActiveDate === undefined ||
+                userData.username === undefined
+            ) {
+                const userRef = doc(db, 'users', userDoc.id);
+                await updateDoc(userRef, updatedData);
+                console.log(`Updated user: ${userDoc.id}`);
+            }
+        });
+
+        console.log('All user documents have been updated.');
+    } catch (error) {
+        console.error('Error updating user documents:', error);
+    }
+}
+
+// Run the update function
+updateUserDocuments();
