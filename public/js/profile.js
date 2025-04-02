@@ -127,26 +127,28 @@ function updateRemainingQueries(dailyLimit, queriesUsed, isPremium) {
 }
 
 async function getUserData() {
-    try {
-        const user = auth.currentUser;
-        if (!user) throw new Error("No user is currently logged in.");
+    const user = auth.currentUser;
+    if (!user) {
+        return { dailyLimit: 0, queriesUsed: 0, isPremium: false }; // Or handle the case where the user is not logged in
+    }
+    
+    const userRef = doc(db, 'users', user.uid);
+    const userDoc = await getDoc(userRef);
 
-        const userRef = doc(db, 'users', user.uid);
-        const userDoc = await getDoc(userRef);
-
-        if (!userDoc.exists()) throw new Error("User data not found.");
-
-        const { messagesSentToday = 0, premiumAccount = false } = userDoc.data();
-        
-        const dailyLimit = messageLimit;  // Assuming messageLimit is defined elsewhere
-        console.log(dailyLimit, messagesSentToday, premiumAccount)
-        
-        return { dailyLimit, messagesSentToday, isPremium: premiumAccount };
-    } catch (error) {
-        console.error("Error fetching user data:", error.message);
-        return { dailyLimit: 0, messagesSentToday: 0, isPremium: false }; // Return defaults in case of error
+    if (userDoc.exists()) {
+        const data = userDoc.data();
+        console.log(data);  // Log the full user data to check if queriesUsed exists
+        return {
+            dailyLimit: data.dailyLimit || 0,  // Use fallback values if not found
+            queriesUsed: data.queriesUsed || 0,  // Use fallback for undefined or missing field
+            isPremium: data.premiumAccount || false
+        };
+    } else {
+        console.error("User document does not exist");
+        return { dailyLimit: 0, queriesUsed: 0, isPremium: false };  // Handle missing user document case
     }
 }
+
 
 // Call the function to fetch documents on page load
 document.addEventListener('DOMContentLoaded', function () {
