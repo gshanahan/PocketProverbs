@@ -58,3 +58,5 @@ async function handleSendMessage(userId, messageContent) {
         // });
     }
 }
+
+export { checkMessageLimit };
