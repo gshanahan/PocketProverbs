@@ -116,6 +116,7 @@ function updateRemainingQueries(dailyLimit, queriesUsed, isPremium) {
         queryStats.style.display = 'none'; // Hide the stat for premium users
         return;
     }
+    console.log(dailyLimit, queriesUsed, isPremium)
 
     queryStats.style.display = 'block'; // Show the stat for non-premium users
     //const remaining = dailyLimit - queriesUsed;
