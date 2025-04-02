@@ -144,8 +144,18 @@ async function getUserData() {
     }
 }
 
-// Usage example
-const { dailyLimit, queriesUsed, isPremium } = await getUserData();
+// Call the function to fetch documents on page load
+document.addEventListener('DOMContentLoaded', function () {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const { dailyLimit, queriesUsed, isPremium } = getUserData();
 
-// Call this function to update the displayed remaining queries
-updateRemainingQueries(dailyLimit, queriesUsed, isPremium);
+        // Call this function to update the displayed remaining queries
+        updateRemainingQueries(dailyLimit, queriesUsed, isPremium);
+    } else {
+        console.log('User is not logged in');
+        // Optionally, redirect to the login page
+        window.location.href = '/login.html';
+    }
+});
+});
