@@ -38,4 +38,4 @@ async function checkMessageLimit(userId) {
     }
 }
 
-export { checkMessageLimit };
+export { checkMessageLimit, messageLimit };

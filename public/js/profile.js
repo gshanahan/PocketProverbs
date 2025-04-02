@@ -1,5 +1,7 @@
+import { checkMessageLimit, messageLimit } from "./accountTiers.js";
 import { auth, db, onAuthStateChanged, doc, setDoc, getDocs, collection, query, where, getDoc} from "./firebaseConfig.js";
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+import { checkMessageLimit, messageLimit } from "./accountTiers.js";
 
 // Fetch user data and stats
 async function fetchUserProfile() {
@@ -107,3 +109,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 });
+
+// Assuming you have the user's data loaded, including their daily query limit and usage.
+function updateRemainingQueries(dailyLimit, queriesUsed, isPremium) {
+    const queryStats = document.getElementById('query-stats');
+    if (isPremium) {
+        queryStats.style.display = 'none'; // Hide the stat for premium users
+        return;
+    }
+
+    queryStats.style.display = 'block'; // Show the stat for non-premium users
+    const remaining = dailyLimit - queriesUsed;
+    const remainingQueriesElement = document.getElementById('remaining-queries');
+    remainingQueriesElement.textContent = remaining > 0 ? remaining : 0;
+}
+
+const userRef = doc(db, 'users', userId);
+const userDoc = await getDoc(userRef);
+const data = userDoc.data();
+
+// Example usage
+const dailyLimit = messageLimit;
+const queriesUsed = data.queriesUsed;
+const isPremium = data.premiumAccount;
+
+// Call this function to update the displayed remaining queries
+updateRemainingQueries(dailyLimit, queriesUsed, isPremium);
