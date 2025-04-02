@@ -1,7 +1,6 @@
 import { checkMessageLimit, messageLimit } from "./accountTiers.js";
 import { auth, db, onAuthStateChanged, doc, setDoc, getDocs, collection, query, where, getDoc} from "./firebaseConfig.js";
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
-import { checkMessageLimit, messageLimit } from "./accountTiers.js";
 
 // Fetch user data and stats
 async function fetchUserProfile() {
