@@ -123,6 +123,8 @@ function updateRemainingQueries(dailyLimit, queriesUsed, isPremium) {
     remainingQueriesElement.textContent = remaining > 0 ? remaining : 0;
 }
 
+const user = auth.currentUser;  // Get the current logged-in user
+const userId = user.uid;
 const userRef = doc(db, 'users', userId);
 const userDoc = await getDoc(userRef);
 const data = userDoc.data();
