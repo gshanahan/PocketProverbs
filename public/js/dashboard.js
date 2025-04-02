@@ -15,15 +15,15 @@
       });
   }
 
-// Typing effect function for chatbot responses
-function typeOutBotMessage(element, text, speed = 25) {
+// Typing effect function for chatbot responses (renders HTML)
+function typeOutBotMessage(element, htmlText, speed = 25) {
   let index = 0;
-  element.innerHTML = ""; // Clear existing content
+  element.innerHTML = ""; // Clear existing text
 
   function typeChar() {
-      if (index < text.length) {
-          // Use innerHTML to maintain formatting
-          element.innerHTML += text[index];
+      if (index < htmlText.length) {
+          // Accumulate the text as HTML instead of plain text
+          element.innerHTML = htmlText.slice(0, index + 1);
           index++;
           chatWindow.scrollTop = chatWindow.scrollHeight; // Keep chat scrolled to the bottom
           setTimeout(typeChar, speed);
