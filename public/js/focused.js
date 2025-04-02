@@ -83,13 +83,15 @@ async function trackDocument() {
   async function sendMessage() {
     const user = auth.currentUser;  // Get the current logged-in user
     const userId = user.uid;
-    
+
     const canSend = await checkMessageLimit(userId);
         if (canSend) {
             // Logic to send the message and update the user's message count
-            const userRef = doc(db, 'users', userId);
-            await updateDoc(userRef, {
-                messagesSentToday: firebase.firestore.FieldValue.increment(1)
+            const userDocRef = doc(db, "users", userId);
+
+            // Atomically update the messages count using the increment function
+            await updateDoc(userDocRef, {
+              messagesSentToday: increment(1)  // Increment the queries count by 1
             });
     
             const chatWindow = document.getElementById("chatWindow");
