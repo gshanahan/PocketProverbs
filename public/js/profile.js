@@ -133,15 +133,15 @@ async function getUserData() {
 
         if (!userDoc.exists()) throw new Error("User data not found.");
 
-        const { queriesUsed = 0, premiumAccount = false } = userDoc.data();
+        const { messagesSentToday = 0, premiumAccount = false } = userDoc.data();
         
         const dailyLimit = messageLimit;  // Assuming messageLimit is defined elsewhere
-        console.log(dailyLimit, queriesUsed, premiumAccount)
+        console.log(dailyLimit, messagesSentToday, premiumAccount)
         
-        return { dailyLimit, queriesUsed, isPremium: premiumAccount };
+        return { dailyLimit, messagesSentToday, isPremium: premiumAccount };
     } catch (error) {
         console.error("Error fetching user data:", error.message);
-        return { dailyLimit: 0, queriesUsed: 0, isPremium: false }; // Return defaults in case of error
+        return { dailyLimit: 0, messagesSentToday: 0, isPremium: false }; // Return defaults in case of error
     }
 }
 
