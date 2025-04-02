@@ -118,11 +118,11 @@ function updateRemainingQueries(dailyLimit, queriesUsed, isPremium) {
     }
 
     queryStats.style.display = 'block'; // Show the stat for non-premium users
-    const remaining = dailyLimit - queriesUsed;
-    const remainingQueriesElement = document.getElementById('remaining-queries');
+    //const remaining = dailyLimit - queriesUsed;
+    //const remainingQueriesElement = document.getElementById('remaining-queries');
     //remainingQueriesElement.textContent = remaining > 0 ? remaining : 0;
+    const remaining = Number(dailyLimit) - Number(queriesUsed) || 0;
     document.getElementById("remaining-queries").textContent = remaining;
-
 }
 
 async function getUserData() {
