@@ -107,7 +107,8 @@ async function saveUserData(user, email, username) {
             consecutiveDays: 0,
             activeDays: 0,
             longestStreak: 0,
-            lastActiveDate: currentDate
+            lastActiveDate: currentDate,
+            accountStatus: "base"
         });
         console.log("User data saved in Firestore.");
     } else {

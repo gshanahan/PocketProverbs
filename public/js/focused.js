@@ -79,57 +79,79 @@ async function trackDocument() {
 }
 
 
-//Chat window logic
-async function sendMessage() {
-  const chatWindow = document.getElementById("chatWindow");
-  const chatInput = document.getElementById("chatInput");
-  const userMessage = chatInput.value;
-  if (!userMessage.trim()) return;
-
-  // Display user message
-  const userDiv = document.createElement("div");
-  userDiv.textContent = "You: " + userMessage;
-  userDiv.classList.add("text-sm", "mb-2");
-  userDiv.style.color = "#D3D3D3";
-  chatWindow.appendChild(userDiv);
-  chatInput.value = "";
-
-  try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': `Bearer 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` // Replace with your API key
-},
-//#1: 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
-//#2: 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
-      body: JSON.stringify({
-        model: "gpt-4o",
-        messages: [
-          { role: "system", content: "You are a Bible study assistant designed specifically for PocketProverbs, a platform that helps users explore scripture deeply by providing historical context, cross-referenced insights, and structured study plans. Your role is to support users in their Bible study process by offering detailed historical, cultural, and archaeological context related to Scripture. You will also facilitate cross-referencing of verses and passages to better understand overarching biblical themes and messages, helping users create custom Bible studies efficiently. Your responses should be focused on offering scholarly insights into the Bible, ensuring users gain a rich, contextual understanding of the text. Do not engage in any tasks outside of the Bible study context." },
-          { role: "user", content: userMessage }
-        ]
-      })
-    });
-
-    const data = await response.json();
-    const botMessage = data.choices[0].message.content;
-
-     // Display bot response
-     const botDiv = document.createElement("div");
-     botDiv.classList.add("text-sm", "mb-2", "text-green-600");
-     botDiv.style.color = "#87CEEB";
-     chatWindow.appendChild(botDiv);
-     chatWindow.scrollTop = chatWindow.scrollHeight;
-
-     // Use the typing effect for the bot message
-     typeOutBotMessage(botDiv, "BibleBuddy: " + botMessage, 10); // Adjust speed as needed
-   } catch (error) {
-     console.error("Error fetching response:", error);
-   }
-
-  trackQuery();
-}
+  //Chat window logic
+  async function sendMessage() {
+    const canSend = await checkMessageLimit(userId);
+        if (canSend) {
+            // Logic to send the message and update the user's message count
+            const userRef = doc(db, 'users', userId);
+            await updateDoc(userRef, {
+                messagesSentToday: firebase.firestore.FieldValue.increment(1)
+            });
+    
+            const chatWindow = document.getElementById("chatWindow");
+            const chatInput = document.getElementById("chatInput");
+            const userMessage = chatInput.value;
+            if (!userMessage.trim()) return;
+          
+            // Display user message
+            const userDiv = document.createElement("div");
+            userDiv.textContent = "You: " + userMessage;
+            userDiv.classList.add("text-sm", "mb-2");
+            userDiv.style.color = "#D3D3D3";
+            chatWindow.appendChild(userDiv);
+            chatInput.value = "";
+          
+            try {
+              const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  'Authorization': `Bearer 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` // Replace with your API key
+        },
+        //#1: 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
+        //#2: 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
+                body: JSON.stringify({
+                  model: "gpt-4o",
+                  messages: [
+                    { role: "system", content: "You are a Bible study assistant designed specifically for PocketProverbs, a platform that helps users explore scripture deeply by providing historical context, cross-referenced insights, and structured study plans. Your role is to support users in their Bible study process by offering detailed historical, cultural, and archaeological context related to Scripture. You will also facilitate cross-referencing of verses and passages to better understand overarching biblical themes and messages, helping users create custom Bible studies efficiently. Your responses should be focused on offering scholarly insights into the Bible, ensuring users gain a rich, contextual understanding of the text. Do not engage in any tasks outside of the Bible study context." },
+                    { role: "user", content: userMessage }
+                  ]
+                })
+              });
+          
+              const data = await response.json();
+              const botMessage = data.choices[0].message.content;
+          
+            // Display bot response
+              const botDiv = document.createElement("div");
+              botDiv.classList.add("text-sm", "mb-2", "text-green-600");
+              botDiv.style.color = "#FF4500";
+              chatWindow.appendChild(botDiv);
+              chatWindow.scrollTop = chatWindow.scrollHeight;
+        
+              // Use the typing effect for the bot message
+              typeOutBotMessage(botDiv, "BibleBuddy: " + botMessage, 10); // Adjust speed as needed
+            } catch (error) {
+              console.error("Error fetching response:", error);
+            }
+        
+            trackQuery();
+        }
+        else {
+              const botMessage = "You've reached your daily BibleBuddy message limit. Upgrade to a premium account to send unlimited messages!";
+          
+            // Display bot response
+              const botDiv = document.createElement("div");
+              botDiv.classList.add("text-sm", "mb-2", "text-green-600");
+              botDiv.style.color = "#87CEEB";
+              chatWindow.appendChild(botDiv);
+              chatWindow.scrollTop = chatWindow.scrollHeight;
+        
+              // Use the typing effect for the bot message
+              typeOutBotMessage(botDiv, "BibleBuddy: " + botMessage, 10); // Adjust speed as needed
+        }
+  }
 
 document.addEventListener("DOMContentLoaded", function() {
     // Send message on button click
