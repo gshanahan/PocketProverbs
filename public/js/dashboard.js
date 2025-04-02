@@ -137,7 +137,7 @@
             // Display bot response
               const botDiv = document.createElement("div");
               botDiv.classList.add("text-sm", "mb-2", "text-green-600");
-              botDiv.style.color = "#FF4500";
+              botDiv.style.color = "#FFFFFF";
               chatWindow.appendChild(botDiv);
               chatWindow.scrollTop = chatWindow.scrollHeight;
         
