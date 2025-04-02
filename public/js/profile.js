@@ -136,6 +136,7 @@ async function getUserData() {
         const { queriesUsed = 0, premiumAccount = false } = userDoc.data();
         
         const dailyLimit = messageLimit;  // Assuming messageLimit is defined elsewhere
+        console.log(dailyLimit, queriesUsed, premiumAccount)
         
         return { dailyLimit, queriesUsed, isPremium: premiumAccount };
     } catch (error) {
