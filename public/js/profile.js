@@ -150,16 +150,22 @@ async function getUserData() {
 
 // Call the function to fetch documents on page load
 document.addEventListener('DOMContentLoaded', function () {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const { dailyLimit, queriesUsed, isPremium } = getUserData();
-
-        // Call this function to update the displayed remaining queries
-        updateRemainingQueries(dailyLimit, queriesUsed, isPremium);
-    } else {
-        console.log('User is not logged in');
-        // Optionally, redirect to the login page
-        window.location.href = '/login.html';
-    }
-});
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // Use an async IIFE to handle async logic
+            (async () => {
+                try {
+                    const { dailyLimit, queriesUsed, isPremium } = await getUserData();
+                    // Call this function to update the displayed remaining queries
+                    updateRemainingQueries(dailyLimit, queriesUsed, isPremium);
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
+            })();
+        } else {
+            console.log('User is not logged in');
+            // Optionally, redirect to the login page
+            window.location.href = '/login.html';
+        }
+    });
 });
