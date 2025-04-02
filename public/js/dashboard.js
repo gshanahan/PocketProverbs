@@ -69,6 +69,9 @@
 
   //Chat window logic
   async function sendMessage() {
+    const user = auth.currentUser;  // Get the current logged-in user
+    const userId = user.uid;
+
     const canSend = await checkMessageLimit(userId);
         if (canSend) {
             // Logic to send the message and update the user's message count

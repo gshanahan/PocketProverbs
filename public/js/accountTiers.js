@@ -39,24 +39,4 @@ async function checkMessageLimit(userId) {
     }
 }
 
-// Call this function when the user attempts to send a message
-async function handleSendMessage(userId, messageContent) {
-    const canSend = await checkMessageLimit(userId);
-    if (canSend) {
-        // Logic to send the message and update the user's message count
-        const userRef = doc(db, 'users', userId);
-        await updateDoc(userRef, {
-            messagesSentToday: firebase.firestore.FieldValue.increment(1)
-        });
-
-        // Send the message (e.g., add to the "messages" collection in Firestore)
-        // Example:
-        // await addDoc(collection(db, 'messages'), {
-        //     userId,
-        //     messageContent,
-        //     timestamp: Timestamp.now()
-        // });
-    }
-}
-
 export { checkMessageLimit };
