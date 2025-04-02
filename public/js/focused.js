@@ -131,7 +131,7 @@ async function trackDocument() {
             // Display bot response
               const botDiv = document.createElement("div");
               botDiv.classList.add("text-sm", "mb-2", "text-green-600");
-              botDiv.style.color = "#FF4500";
+              botDiv.style.color = "#87CEEB";
               chatWindow.appendChild(botDiv);
               chatWindow.scrollTop = chatWindow.scrollHeight;
         
@@ -149,7 +149,7 @@ async function trackDocument() {
             // Display bot response
               const botDiv = document.createElement("div");
               botDiv.classList.add("text-sm", "mb-2", "text-green-600");
-              botDiv.style.color = "#87CEEB";
+              botDiv.style.color = "#FF4500";
               chatWindow.appendChild(botDiv);
               chatWindow.scrollTop = chatWindow.scrollHeight;
         

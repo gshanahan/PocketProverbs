@@ -30,7 +30,6 @@ async function checkMessageLimit(userId) {
             return true;
         } else {
             // Deny the message
-            alert('You have reached your daily message limit. Please upgrade to a premium account to send more messages.');
             return false;
         }
     } catch (error) {
