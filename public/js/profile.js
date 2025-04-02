@@ -139,8 +139,8 @@ async function getUserData() {
         const data = userDoc.data();
         console.log(data);  // Log the full user data to check if queriesUsed exists
         return {
-            dailyLimit: data.dailyLimit || 0,  // Use fallback values if not found
-            queriesUsed: data.queriesUsed || 0,  // Use fallback for undefined or missing field
+            dailyLimit: messageLimit || 0,  // Use fallback values if not found
+            queriesUsed: data.messagesSentToday || 0,  // Use fallback for undefined or missing field
             isPremium: data.premiumAccount || false
         };
     } else {
