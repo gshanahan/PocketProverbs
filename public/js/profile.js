@@ -123,16 +123,29 @@ function updateRemainingQueries(dailyLimit, queriesUsed, isPremium) {
     remainingQueriesElement.textContent = remaining > 0 ? remaining : 0;
 }
 
-const user = auth.currentUser;  // Get the current logged-in user
-const userId = user.uid;
-const userRef = doc(db, 'users', userId);
-const userDoc = await getDoc(userRef);
-const data = userDoc.data();
+async function getUserData() {
+    try {
+        const user = auth.currentUser;
+        if (!user) throw new Error("No user is currently logged in.");
 
-// Example usage
-const dailyLimit = messageLimit;
-const queriesUsed = data.queriesUsed;
-const isPremium = data.premiumAccount;
+        const userRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userRef);
+
+        if (!userDoc.exists()) throw new Error("User data not found.");
+
+        const { queriesUsed = 0, premiumAccount = false } = userDoc.data();
+        
+        const dailyLimit = messageLimit;  // Assuming messageLimit is defined elsewhere
+        
+        return { dailyLimit, queriesUsed, isPremium: premiumAccount };
+    } catch (error) {
+        console.error("Error fetching user data:", error.message);
+        return { dailyLimit: 0, queriesUsed: 0, isPremium: false }; // Return defaults in case of error
+    }
+}
+
+// Usage example
+const { dailyLimit, queriesUsed, isPremium } = await getUserData();
 
 // Call this function to update the displayed remaining queries
 updateRemainingQueries(dailyLimit, queriesUsed, isPremium);
