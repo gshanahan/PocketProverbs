@@ -1,5 +1,6 @@
   import { auth, db, onAuthStateChanged, doc, setDoc, getDocs, collection, query, where, updateDoc, increment } from "./firebaseConfig.js";
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+  import { checkMessageLimit } from "./accountTiers.js";
 
   document.getElementById("signOutBtn").addEventListener("click", logoutUser);
   document.getElementById("mobile-signOut").addEventListener("click", logoutUser);
