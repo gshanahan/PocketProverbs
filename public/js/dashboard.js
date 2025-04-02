@@ -122,9 +122,11 @@
               botDiv.style.color = "#87CEEB";
               chatWindow.appendChild(botDiv);
               chatWindow.scrollTop = chatWindow.scrollHeight;
+
+              const parsedBotMessage = formatGPTOutput(botMessage);
         
               // Use the typing effect for the bot message
-              typeOutBotMessage(botDiv, "BibleBuddy: " + botMessage, 10); // Adjust speed as needed
+              typeOutBotMessage(botDiv, "BibleBuddy: " + parsedBotMessage, 10); // Adjust speed as needed
             } catch (error) {
               console.error("Error fetching response:", error);
             }
@@ -288,5 +290,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 });
+
+function formatGPTOutput(gptOutput) {
+  return marked.parse(gptOutput);
+}
 
 window.logoutUser = logoutUser;
