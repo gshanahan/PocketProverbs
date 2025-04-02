@@ -9,22 +9,23 @@ const quill = new Quill('#editor-container', {
   }
 });
 
-    // Typing effect function for chatbot responses
-    function typeOutBotMessage(element, text, speed = 25) {
-      let index = 0;
-      element.textContent = ""; // Clear existing text
-  
-      function typeChar() {
-          if (index < text.length) {
-              element.textContent += text[index];
-              index++;
-              chatWindow.scrollTop = chatWindow.scrollHeight; // Keep chat scrolled to the bottom
-              setTimeout(typeChar, speed);
-          }
+    // Typing effect function for chatbot responses (renders HTML)
+function typeOutBotMessage(element, htmlText, speed = 25) {
+  let index = 0;
+  element.innerHTML = ""; // Clear existing text
+
+  function typeChar() {
+      if (index < htmlText.length) {
+          // Accumulate the text as HTML instead of plain text
+          element.innerHTML = htmlText.slice(0, index + 1);
+          index++;
+          chatWindow.scrollTop = chatWindow.scrollHeight; // Keep chat scrolled to the bottom
+          setTimeout(typeChar, speed);
       }
-  
-    typeChar();
   }
+
+  typeChar();
+}
 
 async function trackQuery() {
   const user = auth.currentUser;  // Get the current logged-in user
@@ -129,14 +130,20 @@ async function trackDocument() {
               const botMessage = data.choices[0].message.content;
           
             // Display bot response
-              const botDiv = document.createElement("div");
-              botDiv.classList.add("text-sm", "mb-2", "text-green-600");
-              botDiv.style.color = "#87CEEB";
-              chatWindow.appendChild(botDiv);
-              chatWindow.scrollTop = chatWindow.scrollHeight;
-        
-              // Use the typing effect for the bot message
-              typeOutBotMessage(botDiv, "BibleBuddy: " + botMessage, 10); // Adjust speed as needed
+            const botDiv = document.createElement("div");
+            botDiv.classList.add("text-sm", "mb-2", "text-green-600");
+            botDiv.style.color = "#87CEEB";
+            chatWindow.appendChild(botDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            // Parse the GPT output with formatting
+            const parsedBotMessage = formatGPTOutput(botMessage);
+
+            // Wrap the message with a title
+            const formattedMessage = `<strong>BibleBuddy:</strong> ${parsedBotMessage}`;
+
+            // Use the typing effect for the bot message
+            typeOutBotMessage(botDiv, formattedMessage, 10); // Adjust speed as needed
             } catch (error) {
               console.error("Error fetching response:", error);
             }
@@ -267,3 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   });
 });
+
+function formatGPTOutput(gptOutput) {
+  return marked.parse(gptOutput);
+}
