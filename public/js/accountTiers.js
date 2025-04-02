@@ -1,6 +1,6 @@
 import { db, auth, doc, getDoc, updateDoc, Timestamp } from './firebaseConfig.js';
 
-const messageLimit = 10;  // Maximum number of messages per day for non-premium users
+const messageLimit = 20;  // Maximum number of messages per day for non-premium users
 
 async function checkMessageLimit(userId) {
     try {
