@@ -8,15 +8,23 @@
     ],
     "rewrites": [
       {
-        "source": "/profile.html",
+        "source": "/Profile",
         "destination": "/profile.html"
       },
       {
-        "source": "/login.html",
+        "source": "/CommunityDashboard",
+        "destination": "/communityDashboard.html"
+      },
+      {
+        "source": "/FocusMode",
+        "destination": "/focused.html"
+      },
+      {
+        "source": "/Login",
         "destination": "/login.html"
       },
       {
-        "source": "/index.html",
+        "source": "/",
         "destination": "/index.html"
       },
       {
