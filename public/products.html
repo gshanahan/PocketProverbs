@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support & Premium Subscription</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="product-page">
+  <header class="product-header">
+    <h1>Support BibleBuddy</h1>
+    <p>Your support helps us continue to develop and improve the app!</p>
+  </header>
+
+  <div class="product-container">
+    <!-- Donation Option -->
+    <div class="product-card">
+      <h2>Donate</h2>
+      <p>Help us grow! Every donation is appreciated.</p>
+      <button id="donateButton" class="product-button donate-button" onclick="window.location.href='/donate'">Donate Now</button>
+    </div>
+
+    <!-- Premium Subscription Option -->
+    <div class="product-card">
+      <h2>Premium Subscription</h2>
+      <p>Access exclusive features for just $4.99/month.</p>
+      <button id="subscribeButton" class="product-button subscribe-button" onclick="window.location.href='/subscribe'">Subscribe</button>
+    </div>
+  </div>
+
+  <footer class="product-footer">
+    <p>Thank you for supporting BibleBuddy!</p>
+  </footer>
+  <script type="module" src="js/products.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "pocketproverbs",
+  "version": "1.0.0",
+  "description": "A Bible study app with Stripe payments",
+  "main": "index.js",
+  "scripts": {
+    "start": "firebase emulators:start",
+    "deploy": "firebase deploy"
+  },
+  "dependencies": {
+    "firebase-admin": "^10.0.0",
+    "firebase-functions": "^3.18.0",
+    "stripe": "^8.0.0"
+  },
+  "devDependencies": {
+    "firebase-tools": "^10.0.0"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "author": "Your Name",
+  "license": "ISC"
+}
