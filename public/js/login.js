@@ -56,6 +56,7 @@ async function registerUser() {
       // Step 1: Create the user first
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       console.log("Account created:", userCredential.user);
+      await saveUserData(userCredential.user, email, username);
 
       // Step 2: Check if the email or username is already in use
       const usersRef = collection(db, "users");
@@ -79,7 +80,7 @@ async function registerUser() {
       }
 
       // Step 3: Save user data in Firestore after validation
-      await saveUserData(userCredential.user, email, username);
+      //await saveUserData(userCredential.user, email, username);
 
       window.location.href = "/index.html";
   } catch (error) {
