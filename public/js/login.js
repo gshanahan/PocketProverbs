@@ -53,6 +53,11 @@ async function registerUser() {
   showLoading();
 
   try {
+
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("Account created:", userCredential.user);
+      await saveUserData(userCredential.user, email, username);
+
       // Step 1: Check if the email or username is already in use
       const usersRef = collection(db, "users");
 
@@ -74,10 +79,6 @@ async function registerUser() {
           return;
       }
 
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("Account created:", userCredential.user);
-      await saveUserData(userCredential.user, email, username);
-
       // Step 3: Save user data in Firestore after validation
       //await saveUserData(userCredential.user, email, username);
 
@@ -96,7 +97,7 @@ async function saveUserData(user, email, username) {
     const userDoc = await getDoc(userRef);
     let currentDate = new Date();
 
-    if (!userDoc.exists()) {
+    try {
         await setDoc(userRef, {
             email: email,
             username: username,
@@ -114,9 +115,9 @@ async function saveUserData(user, email, username) {
         });
         console.log("User data saved in Firestore.");
         alert("User data saved in firestore")
-    } else {
-        console.log("User data already exists. No need to overwrite.");
-        alert("User data already exists in firestore")
+    } catch {
+        console.log("Error saving user data.");
+        alert("Error saving user data.")
 
     }
 }
