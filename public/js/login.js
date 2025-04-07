@@ -115,8 +115,8 @@ async function saveUserData(user, email, username) {
         console.log("User data saved in Firestore.");
         alert("User data saved in firestore")
     } catch {
-        console.log("Error saving user data.");
-        alert("Error saving user data.")
+      console.error("Error saving user data:", error);
+      alert("Error saving user data: " + error.message);
 
     }
 }
