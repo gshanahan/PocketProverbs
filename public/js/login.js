@@ -113,8 +113,11 @@ async function saveUserData(user, email, username) {
             lastResetTimestamp: serverTimestamp()
         });
         console.log("User data saved in Firestore.");
+        alert("User data saved in firestore")
     } else {
         console.log("User data already exists. No need to overwrite.");
+        alert("User data already exists in firestore")
+
     }
 }
 
