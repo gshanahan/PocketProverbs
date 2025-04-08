@@ -5,10 +5,6 @@ async function fetchLeaderboardData() {
         const usersRef = collection(db, 'users');
         const communityStatsDocRef = doc(db, "users", "CommunityStats101");
 
-        // Total BB Queries
-        const docSnapshot = await getDocs(communityStatsDocRef);
-        const totalBBQueries = docSnapshot.data().TotalBBQueries;
-
         // Top 5 Highest Consecutive Days
         const consecutiveQuery = query(usersRef, orderBy('consecutiveDays', 'desc'), limit(5));
         const consecutiveSnapshot = await getDocs(consecutiveQuery);
@@ -27,6 +23,10 @@ async function fetchLeaderboardData() {
         // Total Users
         const totalSnapshot = await getDocs(usersRef);
         const totalUserCount = totalSnapshot.size;
+
+        // Total BB Queries
+        const docSnapshot = await getDocs(communityStatsDocRef);
+        const totalBBQueries = docSnapshot.data().TotalBBQueries;
 
         // Update the DOM with the fetched data
         updateDashboard(consecutiveData, activeData, longestStreakData, totalUserCount, totalBBQueries);
@@ -95,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
             fetchLeaderboardData(); // Fetch leaderboard data only if the user is authenticated
-            fetchTotalQueries();
         } else {
             console.error("User not authenticated");
             // Redirect to login page or show a message
