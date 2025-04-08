@@ -3,6 +3,11 @@ import { db, auth, collection, getDocs, query, orderBy, limit, onAuthStateChange
 async function fetchLeaderboardData() {
     try {
         const usersRef = collection(db, 'users');
+        const communityStatsDocRef = doc(db, "users", "CommunityStats101");
+
+        // Total BB Queries
+        const docSnapshot = await getDocs(communityStatsDocRef);
+        const totalBBQueries = docSnapshot.data().TotalBBQueries;
 
         // Top 5 Highest Consecutive Days
         const consecutiveQuery = query(usersRef, orderBy('consecutiveDays', 'desc'), limit(5));
@@ -24,14 +29,14 @@ async function fetchLeaderboardData() {
         const totalUserCount = totalSnapshot.size;
 
         // Update the DOM with the fetched data
-        updateDashboard(consecutiveData, activeData, longestStreakData, totalUserCount);
+        updateDashboard(consecutiveData, activeData, longestStreakData, totalUserCount, totalBBQueries);
     } catch (error) {
         console.error('Error fetching leaderboard data:', error);
     }
 }
 
 // Function to update the DOM with fetched data
-function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUsers) {
+function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUsers, totalBBQueries) {
     // Update Title
     document.querySelector('.community-dashboard-title').textContent = 'Community Dashboard';
     console.log("topConsecutive: ", topConsecutive);
@@ -46,6 +51,9 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
         totalUsersElement.textContent = totalUsers;
     }
 
+    // Update the Total Queries on the dashboard
+    const totalQueriesElement = document.getElementById("total-queries-count");
+    totalQueriesElement.textContent = totalBBQueries;
 
     // Longest Streak
     const streakElement = document.querySelector('.longest-streak');
@@ -85,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
             fetchLeaderboardData(); // Fetch leaderboard data only if the user is authenticated
+            fetchTotalQueries();
         } else {
             console.error("User not authenticated");
             // Redirect to login page or show a message
@@ -92,3 +101,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+async function fetchTotalQueries() {
+    const communityStatsDocRef = doc(db, "users", "CommunityStats101");
+
+    try {
+        // Fetch the document data
+        const docSnapshot = await getDoc(communityStatsDocRef);
+
+        if (docSnapshot.exists()) {
+            // Get the TotalBBQueries value
+            const totalBBQueries = docSnapshot.data().TotalBBQueries;
+
+            // Update the Total Queries on the dashboard
+            const totalQueriesElement = document.getElementById("total-queries-count");
+            totalQueriesElement.textContent = `${totalBBQueries}`;
+        } else {
+            console.log("No such document found!");
+        }
+    } catch (error) {
+        console.error("Error getting document:", error);
+    }
+}
