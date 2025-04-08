@@ -1,4 +1,4 @@
-import { db, auth, collection, getDocs, query, orderBy, limit, onAuthStateChanged, doc } from './firebaseConfig.js';
+import { db, auth, collection, getDoc, getDocs, query, orderBy, limit, onAuthStateChanged, doc } from './firebaseConfig.js';
 
 async function fetchLeaderboardData() {
     try {
@@ -25,7 +25,7 @@ async function fetchLeaderboardData() {
         const totalUserCount = totalSnapshot.size;
 
         // Total BB Queries
-        const docSnapshot = await getDocs(communityStatsDocRef);
+        const docSnapshot = await getDoc(communityStatsDocRef);
         const totalBBQueries = docSnapshot.data().TotalBBQueries;
 
         // Update the DOM with the fetched data
