@@ -43,6 +43,7 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
     console.log("topActiveDays: ", topActiveDays);
     console.log("longestStreak: ", longestStreak);
     console.log("totalUsers: ", totalUsers);
+    console.log("TotalBBQueries: ", totalBBQueries)
 
     
     // Total Users
