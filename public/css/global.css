@@ -58,6 +58,11 @@ body {
   padding: 20px;
 }
 
+.community-dashboard-nav-logo{
+  height: 40px;
+  width: auto;
+}
+
 .community-dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
