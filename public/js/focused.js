@@ -275,6 +275,28 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+document.getElementById("download-pdf").addEventListener("click", () => {
+  // Get the HTML content from Quill
+  const quillHtml = quill.root.innerHTML;
+
+  // Create a container for export with styling
+  const container = document.createElement('div');
+  container.innerHTML = `
+    <h2>${document.getElementById("title-input").value || 'My Notes'}</h2>
+    <div>${quillHtml}</div>
+  `;
+
+  const opt = {
+    margin:       0.5,
+    filename:     `${document.getElementById("title-input").value || 'document'}.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+
+  html2pdf().from(container).set(opt).save();
+});
+
 function formatGPTOutput(gptOutput) {
   return marked.parse(gptOutput);
 }
