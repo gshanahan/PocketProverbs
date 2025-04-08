@@ -103,25 +103,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
-async function fetchTotalQueries() {
-    const communityStatsDocRef = doc(db, "users", "CommunityStats101");
-
-    try {
-        // Fetch the document data
-        const docSnapshot = await getDoc(communityStatsDocRef);
-
-        if (docSnapshot.exists()) {
-            // Get the TotalBBQueries value
-            const totalBBQueries = docSnapshot.data().TotalBBQueries;
-
-            // Update the Total Queries on the dashboard
-            const totalQueriesElement = document.getElementById("total-queries-count");
-            totalQueriesElement.textContent = `${totalBBQueries}`;
-        } else {
-            console.log("No such document found!");
-        }
-    } catch (error) {
-        console.error("Error getting document:", error);
-    }
-}
