@@ -297,6 +297,30 @@ document.getElementById("download-pdf").addEventListener("click", () => {
   html2pdf().from(container).set(opt).save();
 });
 
+document.getElementById('download-word').addEventListener('click', () => {
+  const editorContent = document.querySelector('#editor-container .ql-editor').innerHTML;
+  const title = document.getElementById('title-input').value || "PocketProverbs_Note";
+
+  const header = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+          xmlns:w='urn:schemas-microsoft-com:office:word' 
+          xmlns='http://www.w3.org/TR/REC-html40'>
+    <head><meta charset='utf-8'><title>Document</title></head><body>`;
+  const footer = `</body></html>`;
+  const fullHTML = header + editorContent + footer;
+
+  const blob = new Blob(['\ufeff', fullHTML], {
+    type: 'application/msword'
+  });
+
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `${title}.doc`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
 function formatGPTOutput(gptOutput) {
   return marked.parse(gptOutput);
 }
