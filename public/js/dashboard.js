@@ -35,6 +35,8 @@ function typeOutBotMessage(element, htmlText, speed = 25) {
 
   async function trackQuery() {
     const user = auth.currentUser;  // Get the current logged-in user
+    // Get reference to the 'CommunityStats101' document
+    const communityStatsDocRef = doc(db, "users", "CommunityStats101");
   
     if (!user) {
       console.log('User is not logged in');
@@ -50,6 +52,9 @@ function typeOutBotMessage(element, htmlText, speed = 25) {
       // Atomically update the query count using the increment function
       await updateDoc(userDocRef, {
         queries: increment(1)  // Increment the queries count by 1
+      });
+      await updateDoc(communityStatsDocRef, {
+        TotalBBQueries: increment(1)  // Increment the community stats query count by 1
       });
   
       console.log("Query count updated successfully");
