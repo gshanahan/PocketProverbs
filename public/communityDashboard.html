@@ -19,6 +19,11 @@
         <div class="community-dashboard-container">
             <h1 class="community-dashboard-title">Community Dashboard</h1>
 
+            <!-- Loading wheel -->
+            <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+                <div class="loader border-t-4 border-white border-solid rounded-full w-16 h-16 animate-spin"></div>
+            </div>
+
             <div id="total-users" class="community-card">
                 <h2>Total Users: <span id="total-users-count">0</span></h2>
                 <p id="total-queries">Total Queries: <span id="total-queries-count">0</span></p>

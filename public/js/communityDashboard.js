@@ -94,7 +94,9 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
+            showLoading();
             fetchLeaderboardData(); // Fetch leaderboard data only if the user is authenticated
+            hideLoading();
         } else {
             console.error("User not authenticated");
             // Redirect to login page or show a message
@@ -102,3 +104,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+function showLoading() {
+    const overlay = document.getElementById("loadingOverlay");
+    overlay.classList.remove("hidden");
+}
+
+function hideLoading() {
+    const overlay = document.getElementById("loadingOverlay");
+    overlay.classList.add("hidden");
+}
