@@ -1,4 +1,4 @@
-import { db, auth, collection, getDocs, query, orderBy, limit, onAuthStateChanged } from './firebaseConfig.js';
+import { db, auth, collection, getDocs, query, orderBy, limit, onAuthStateChanged, doc } from './firebaseConfig.js';
 
 async function fetchLeaderboardData() {
     try {
@@ -43,7 +43,7 @@ function updateDashboard(topConsecutive, topActiveDays, longestStreak, totalUser
     console.log("topActiveDays: ", topActiveDays);
     console.log("longestStreak: ", longestStreak);
     console.log("totalUsers: ", totalUsers);
-    
+
     console.log("TotalBBQueries: ", totalBBQueries);
 
     
