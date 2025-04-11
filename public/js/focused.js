@@ -183,8 +183,18 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
   
+const MAX_FREE_DOCUMENTS = 5;
 
 async function saveDocument(userId, title, category, content) {
+  const userData = userSnap.data();
+  const isPremium = userData.premiumAccount;
+  const savedCount = userData.documentsSaved || 0;
+
+  if (!isPremium && savedCount >= MAX_FREE_DOCUMENTS) {
+    alert("You've reached the limit of saved documents for free users. Subscribe for unlimited access!");
+    return;
+  }
+
   try {
       const docRef = doc(collection(db, "users", userId, "documents"));
       await setDoc(docRef, {
