@@ -329,3 +329,59 @@ document.getElementById('download-word').addEventListener('click', () => {
 function formatGPTOutput(gptOutput) {
   return marked.parse(gptOutput);
 }
+
+// Buttons that require premium
+const premiumButtons = [
+  document.getElementById("download-pdf"),
+  document.getElementById("download-word")
+];
+
+// Popup element
+const popup = document.createElement("div");
+popup.id = "premium-popup";
+popup.className = "fixed bottom-4 right-4 bg-[#e85a82] text-white p-4 rounded-lg shadow-lg hidden z-50";
+popup.innerHTML = `
+  <p class="mb-2">This feature is for Premium members only.</p>
+  <a href="https://www.patreon.com/PocketProverbs" target="_blank" class="underline font-semibold">Subscribe on Patreon</a>
+`;
+document.body.appendChild(popup);
+
+// Show and auto-hide popup
+function showPopup() {
+  popup.classList.remove("hidden");
+  setTimeout(() => popup.classList.add("hidden"), 4000);
+}
+
+// Check user subscription
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+    const hasPremium = userSnap.exists() && userSnap.data().premiumAccount;
+
+    if (!hasPremium) {
+      premiumButtons.forEach(btn => {
+        if (btn) {
+          btn.disabled = true;
+          btn.classList.add("opacity-50", "cursor-not-allowed");
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            showPopup();
+          });
+        }
+      });
+    }
+  } else {
+    // Not signed in
+    premiumButtons.forEach(btn => {
+      if (btn) {
+        btn.disabled = true;
+        btn.classList.add("opacity-50", "cursor-not-allowed");
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          showPopup();
+        });
+      }
+    });
+  }
+});
