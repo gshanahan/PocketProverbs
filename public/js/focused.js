@@ -397,3 +397,34 @@ onAuthStateChanged(auth, async (user) => {
     });
   }
 });
+
+const deleteBtn = document.getElementById("delete-btn");
+const urlParams = new URLSearchParams(window.location.search);
+const docId = urlParams.get("docId");
+
+deleteBtn.addEventListener("click", async () => {
+  if (!docId) return alert("No document ID found.");
+
+  const confirmed = confirm("Are you sure you want to delete this document?");
+  if (!confirmed) return;
+
+  const user = auth.currentUser;
+  if (!user) return alert("Please sign in first.");
+
+  try {
+    const docRef = doc(db, "users", user.uid, "documents", docId);
+    await deleteDoc(docRef);
+
+    // Decrement documentsSaved count
+    const userRef = doc(db, "users", user.uid);
+    await updateDoc(userRef, {
+      documentsSaved: increment(-1)
+    });
+
+    alert("Document deleted successfully.");
+    window.location.href = "/dashboard.html"; // Adjust path if needed
+  } catch (error) {
+    console.error("Error deleting document:", error);
+    alert("Something went wrong while deleting the document.");
+  }
+});
