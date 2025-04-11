@@ -171,3 +171,35 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+const patreonButton = document.getElementById("patreon-button");
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const hasPremium = userSnap.data().premiumAccount;
+
+      if (hasPremium) {
+        patreonButton.textContent = "✅ Premium Member – Thank You!";
+        patreonButton.classList.remove("bg-[#e85a82]");
+        patreonButton.classList.add("bg-green-600", "hover:bg-green-500");
+        patreonButton.disabled = true;
+      } else {
+        patreonButton.textContent = "Subscribe on Patreon";
+        patreonButton.onclick = () => {
+          window.open("https://www.patreon.com/PocketProverbs", "_blank");
+        };
+      }
+    } else {
+      patreonButton.textContent = "Error loading status";
+    }
+  } else {
+    patreonButton.textContent = "Sign in to Subscribe";
+    patreonButton.onclick = () => {
+      window.location.href = "/login"; // adjust as needed
+    };
+  }
+});
