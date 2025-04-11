@@ -422,7 +422,7 @@ deleteBtn.addEventListener("click", async () => {
     });
 
     alert("Document deleted successfully.");
-    window.location.href = "/dashboard.html"; // Adjust path if needed
+    window.location.href = "/focused.html"; // Adjust path if needed
   } catch (error) {
     console.error("Error deleting document:", error);
     alert("Something went wrong while deleting the document.");
