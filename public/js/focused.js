@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
 const MAX_FREE_DOCUMENTS = 5;
 
 async function saveDocument(userId, title, category, content) {
-  const userRef = doc(db, "users", user.uid);
+  const userRef = doc(db, "users", userId);
   const userSnap = await getDoc(userRef);
   const userData = userSnap.data();
   const isPremium = userData.premiumAccount;
