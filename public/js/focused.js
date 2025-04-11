@@ -1,4 +1,4 @@
-import { auth, db, doc, setDoc, getDoc, collection, updateDoc, increment, onAuthStateChanged } from "./firebaseConfig.js";
+import { auth, db, doc, setDoc, getDoc, deleteDoc, collection, updateDoc, increment, onAuthStateChanged } from "./firebaseConfig.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 import { checkMessageLimit } from "./accountTiers.js";
 
