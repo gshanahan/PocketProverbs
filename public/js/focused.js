@@ -208,6 +208,7 @@ async function saveDocument(userId, title, category, content) {
           updatedAt: new Date(),
       });
       console.log("Document saved.");
+      alert('Document saved successfully!');
 
       trackDocument();
   } catch (error) {
@@ -233,7 +234,6 @@ const userId = user.uid;
 console.log(userId);
 try {
     await saveDocument(userId, title, category, content);
-    alert('Document saved successfully!');
     //showSuccessAlert('Success', 'Document saved successfully!');
 } catch (error) {
     console.error("Error saving document: ", error);
