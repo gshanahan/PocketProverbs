@@ -123,6 +123,7 @@ async function saveUserData(user, email, username) {
 
 async function updateUserActivity() {
   const user = auth.currentUser;
+  console.log("UpdateUserData function called");
   if (!user) return;
 
   try {
