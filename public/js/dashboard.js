@@ -5,6 +5,17 @@
   document.getElementById("signOutBtn").addEventListener("click", logoutUser);
   document.getElementById("mobile-signOut").addEventListener("click", logoutUser);
 
+  function saveToLocalStorage(messages) {
+    localStorage.setItem("chatHistory", JSON.stringify(messages));
+  }
+  
+  function loadFromLocalStorage() {
+    const data = localStorage.getItem("chatHistory");
+    return data ? JSON.parse(data) : [];
+  }  
+
+  let chatMessages = loadFromLocalStorage(); // Load from storage on page load
+
   function logoutUser() {
       auth.signOut().then(() => {
           console.log("User signed out successfully");
@@ -91,6 +102,9 @@ function typeOutBotMessage(element, htmlText, speed = 25) {
             const chatWindow = document.getElementById("chatWindow");
             const chatInput = document.getElementById("chatInput");
             const userMessage = chatInput.value;
+            
+            renderStoredChat();
+
             if (!userMessage.trim()) return;
           
             // Display user message
@@ -100,6 +114,9 @@ function typeOutBotMessage(element, htmlText, speed = 25) {
             userDiv.style.color = "#D3D3D3";
             chatWindow.appendChild(userDiv);
             chatInput.value = "";
+            chatMessages.push({ role: "user", content: userMessage });
+            saveToLocalStorage(chatMessages);
+
           
             try {
               const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -152,12 +169,31 @@ function typeOutBotMessage(element, htmlText, speed = 25) {
               botDiv.style.color = "#FFFFFF";
               chatWindow.appendChild(botDiv);
               chatWindow.scrollTop = chatWindow.scrollHeight;
+              chatMessages.push({ role: "bot", content: botMessage });
+              saveToLocalStorage(chatMessages);
+
         
               // Use the typing effect for the bot message
               typeOutBotMessage(botDiv, "BibleBuddy: " + botMessage, 10); // Adjust speed as needed
         }
   }
   
+  function renderStoredChat() {
+    const chatWindow = document.getElementById("chatWindow");
+    chatWindow.innerHTML = ""; // Clear previous messages
+  
+    chatMessages.forEach(msg => {
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("text-sm", "mb-2");
+      msgDiv.style.color = msg.role === "user" ? "#D3D3D3" : "#F4C430";
+      msgDiv.innerHTML = `<strong>${msg.role === "user" ? "You" : "BibleBuddy"}:</strong> ${msg.content}`;
+      chatWindow.appendChild(msgDiv);
+    });
+  
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+  
+
   // Send message on button click
   document.getElementById("sendButton").addEventListener("click", sendMessage);
   
