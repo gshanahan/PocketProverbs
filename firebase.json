@@ -8,7 +8,7 @@
     ],
     "rewrites": [
       {
-        "source": "/Profile",
+        "source": "/Account",
         "destination": "/profile.html"
       },
       {
@@ -16,7 +16,7 @@
         "destination": "/communityDashboard.html"
       },
       {
-        "source": "/FocusMode",
+        "source": "/FocusedMode",
         "destination": "/focused.html"
       },
       {
