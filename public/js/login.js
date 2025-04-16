@@ -31,7 +31,7 @@ async function loginUser() {
             }
         }
 
-        window.location.href = "/index.html";
+        window.location.href = "/";
     } catch (error) {
         console.error("Error logging in: ", error.message);
         alert(error.message);
@@ -81,7 +81,7 @@ async function registerUser() {
       // Step 3: Save user data in Firestore after validation
       await saveUserData(userCredential.user, email, username);
 
-      window.location.href = "/index.html";
+      window.location.href = "/";
   } catch (error) {
       console.error("Error registering user: ", error.message);
       alert(error.message);
